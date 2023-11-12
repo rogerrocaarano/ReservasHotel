@@ -1,12 +1,13 @@
 -- USUARIOS Y ROLES
-drop table if exists "Roles","Usuarios","RolUsuario";
 
 -- Llevar registro de los roles del sistema
+drop table if exists "Roles" cascade ;
 create table "Roles"(
     "id" serial primary key not null,
     "rol" varchar(32)
 );
 -- Usuarios del sistema Web
+drop table if exists "Usuarios" cascade ;
 create table "Usuarios"(
     "id" serial primary key not null,
     "habilitado" boolean default true,
@@ -15,14 +16,14 @@ create table "Usuarios"(
     "salHash" varchar(64)
 );
 -- Registrar los roles asignados a los usuarios del sistema
+drop table if exists "RolUsuario" cascade;
 create table "RolUsuario"(
     "idUsuario" serial references "Usuarios"(id) not null,
     "idRol" serial references "Roles"(id) not null
 );
 
 -- ENTIDADES DEL NEGOCIO
-drop table if exists "Clientes","Huespedes";
-
+drop table if exists "Clientes" cascade;
 -- Registrar a quienes realizan reservas en el hotel
 create table "Clientes"(
     "id" serial primary key not null,
@@ -33,6 +34,7 @@ create table "Clientes"(
     "email" varchar(128)
 );
 -- Registrar los huéspedes del hotel
+drop table if exists "Huespedes" cascade;
 create table "Huespedes"(
     "id" serial primary key not null,
     "nombres" varchar(128) not null,
@@ -41,9 +43,7 @@ create table "Huespedes"(
     "tipoDocIdentidad" varchar(16) not null,
     "nacionalidad" varchar(16) not null
 );
-
-drop table if exists "TipoHabitaciones","Habitaciones","PaquetesPromocionales";
-
+drop  table if exists "TipoHabitaciones" cascade;
 create table "TipoHabitaciones"(
     "id" serial primary key not null,
     "nombre" varchar(128) not null,
@@ -51,6 +51,7 @@ create table "TipoHabitaciones"(
     "huespedesPermitidos" int not null,
     "precioNoche" float not null
 );
+drop table if exists "Habitaciones" cascade;
 create table "Habitaciones"(
     "id" serial primary key not null,
     "idTipoHabitacion" serial references "TipoHabitaciones"(id) not null,
@@ -58,6 +59,7 @@ create table "Habitaciones"(
     "reservado" bool default false,
     "nro" varchar(16)
 );
+drop table if exists "PaquetesPromocionales" cascade;
 create table "PaquetesPromocionales"(
     "id" serial primary key not null,
     "nombre" varchar(128),
@@ -66,3 +68,36 @@ create table "PaquetesPromocionales"(
     "habilitado" bool default false,
     "disponible" bool default false
 );
+drop table if exists "Reservas" cascade;
+create table "Reservas"(
+    "id" serial primary key not null,
+    "idHabitacion" serial references "Habitaciones"(id) not null,
+    "idPaquetePromocional" serial references "PaquetesPromocionales"(id),
+    "idCliente" serial references "Clientes"(id),
+    "fechaReserva" timestamp default now(),
+    "checkIn" timestamp,
+    "checkOut" timestamp,
+    "estado" varchar(32) default 'RESERVADO'
+);
+drop table if exists "CheckIn" cascade;
+create table "CheckIn"(
+    "idHuesped" serial references "Huespedes"(id) not null,
+    "idHabitacion" serial references "Habitaciones"(id) not null,
+    "fecha" timestamp default now()
+);
+drop table if exists "CheckOut" cascade;
+create table "CheckOut"(
+    "idHuesped" serial references "Huespedes"(id) not null,
+    "idHabitacion" serial references "Habitaciones"(id) not null,
+    "fecha" timestamp default now()
+);
+
+-- Cargos
+drop table if exists "CargoReserva";
+create table "CargoReserva"(
+    "id" serial primary key not null,
+    "idReserva" serial references "Reservas"(id) not null,
+    "idCliente" serial references "Clientes"(id) not null,
+    "total" float not null
+);
+drop table if exists "CargoExtensionReserva";
