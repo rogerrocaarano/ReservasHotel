@@ -1,29 +1,23 @@
--- USUARIOS Y ROLES
-drop table if exists "Roles","Usuarios","RolUsuario";
+-- Usuarios y Roles del sistema Web
 
--- Llevar registro de los roles del sistema
 create table "Roles"(
     "id" serial primary key not null,
-    "rol" varchar(32)
+    "rol" varchar(32) not null
 );
--- Usuarios del sistema Web
 create table "Usuarios"(
     "id" serial primary key not null,
-    "habilitado" boolean default true,
-    "usuario" varchar(64),
-    "hashPassword" varchar(512),
-    "salHash" varchar(64)
+    "usuario" varchar(64) not null,
+    "hashPassword" varchar(512) not null,
+    "salHash" varchar(64) not null,
+    "habilitado" boolean default true
 );
--- Registrar los roles asignados a los usuarios del sistema
 create table "RolUsuario"(
     "idUsuario" serial references "Usuarios"(id) not null,
     "idRol" serial references "Roles"(id) not null
 );
 
--- ENTIDADES DEL NEGOCIO
-drop table if exists "Clientes","Huespedes";
+-- Entidades principales del negocio
 
--- Registrar a quienes realizan reservas en el hotel
 create table "Clientes"(
     "id" serial primary key not null,
     "nombres" varchar(128) not null,
@@ -32,7 +26,6 @@ create table "Clientes"(
     "nroRazonSocial" varchar(64),
     "email" varchar(128)
 );
--- Registrar los huéspedes del hotel
 create table "Huespedes"(
     "id" serial primary key not null,
     "nombres" varchar(128) not null,
@@ -41,9 +34,6 @@ create table "Huespedes"(
     "tipoDocIdentidad" varchar(16) not null,
     "nacionalidad" varchar(16) not null
 );
-
-drop table if exists "TipoHabitaciones","Habitaciones","PaquetesPromocionales";
-
 create table "TipoHabitaciones"(
     "id" serial primary key not null,
     "nombre" varchar(128) not null,
@@ -56,13 +46,100 @@ create table "Habitaciones"(
     "idTipoHabitacion" serial references "TipoHabitaciones"(id) not null,
     "habilitado" bool default true,
     "reservado" bool default false,
-    "nro" varchar(16)
+    "nro" varchar(16) not null
 );
 create table "PaquetesPromocionales"(
     "id" serial primary key not null,
-    "nombre" varchar(128),
-    "descripcion" varchar(256),
-    "precio" float,
+    "nombre" varchar(128) not null,
+    "descripcion" varchar(256) not null,
+    "precio" float default 0.00 not null,
     "habilitado" bool default false,
-    "disponible" bool default false
+    "fechaDisponibleInicio" timestamp not null,
+    "fechaDisponibleFin" timestamp not null
+);
+create table "Reservas"(
+    "id" serial primary key not null,
+    "fechaReserva" timestamp default now(),
+    "inicioReserva" timestamp,
+    "finReserva" timestamp,
+    "estado" varchar(32) default 'RESERVADO'
+);
+
+-- Reportes Reservas
+
+create table "ReservasClientes"(
+    "idReserva" serial references "Reservas"(id),
+    "idCliente" serial references "Clientes"(id)
+);
+create table "HabitacionesReservadas"(
+    "idHabitacion" serial references "Habitaciones"(id),
+    "idReserva" serial references "Reservas"(id)
+);
+create table "PaquetesPromocionalesReservas"(
+    "idPaquetePromocional" serial references "PaquetesPromocionales"(id),
+    "idReserva" serial references "Reservas"(id)
+);
+
+-- Registro de ingreso y salida de huéspedes
+
+create table "CheckIn"(
+    "idHuesped" serial references "Huespedes"(id) not null,
+    "idHabitacion" serial references "Habitaciones"(id) not null,
+    "ingreso" timestamp default now()
+);
+create table "CheckOut"(
+    "idHuesped" serial references "Huespedes"(id) not null,
+    "idHabitacion" serial references "Habitaciones"(id) not null,
+    "salida" timestamp default now()
+);
+
+-- Inventario Habitación
+
+create table "ItemsHabitacion"(
+    "id" serial primary key not null,
+    "descripcion" varchar(128) not null,
+    "costo" float not null
+);
+create table "ItemsIncluidosHabitacion"(
+    "idHabitacion" serial references "Habitaciones"(id),
+    "idItem" serial references "ItemsHabitacion"(id)
+);
+create table "InventarioReposicion"(
+    "id" serial primary key not null,
+    "idHabitacion" serial references "Habitaciones"(id),
+    "idItemHabitacion" serial references "ItemsHabitacion"(id)
+);
+
+-- Cobro
+
+create table "Cobros"(
+    "id" serial primary key not null,
+    "idReserva" serial references "Reservas"(id) not null,
+    "descripcion" varchar(128),
+    "total" float not null,
+    "estado" varchar(64)
+);
+
+-- Pagos
+
+create table "Pagos"(
+    "id" serial primary key not null,
+    "idCobro" serial references "Cobros"(id) not null,
+    "monto" float not null
+);
+create table "PagosQr"(
+    "idPago" serial references "Pagos"(id) not null,
+    "nroTransaccion" varchar(128) not null
+);
+create table "PagosPos"(
+    "idPago" serial references "Pagos"(id) not null,
+    "tipoTarjeta" varchar(16) not null,
+    "ultimosDigTarjeta" int not null,
+    "autorizacion" varchar(32) not null,
+    "operacion" varchar(32) not null
+);
+create table if not exists "PagosStripe"(
+    "idPago" serial references "Pagos"(id) not null,
+    "idStripe" varchar(64) not null,
+    "estado" varchar(32) not null
 );
