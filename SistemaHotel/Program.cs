@@ -1,8 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using SistemaHotel.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+var connectionString = Environment.GetEnvironmentVariable("ReservasHotelDb");
+Console.WriteLine("connectionString: "+ connectionString);
+builder.Services.AddDbContext<Database>(options => options.UseNpgsql(connectionString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
