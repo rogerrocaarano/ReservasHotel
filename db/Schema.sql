@@ -1,9 +1,28 @@
+-- Limpiar la base de datos
+
+do $$
+declare
+    tabname text;
+begin
+    for tabname in (select tablename from pg_tables where schemaname = 'public')
+        loop
+            execute 'DROP TABLE IF EXISTS "' || tabname || '" CASCADE';
+        end loop;
+end
+$$;
+
 -- Usuarios y Roles del sistema Web
 
 create table "Roles"(
     "id" serial primary key not null,
     "rol" varchar(32) not null
 );
+insert into "Roles"("rol") VALUES ('ADMINISTRADOR'),
+                                  ('CLIENTE'),
+                                  ('RECEPCION'),
+                                  ('RESERVA'),
+                                  ('INVENTARIO'),
+                                  ('CAJA');
 create table "Usuarios"(
     "id" serial primary key not null,
     "usuario" varchar(64) not null,
