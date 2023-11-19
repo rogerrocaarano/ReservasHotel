@@ -47,9 +47,11 @@ create table "Cliente"(
     "id" serial primary key not null,
     "nombres" varchar(128) not null,
     "apellidos" varchar(128) not null,
+    "genero" varchar(3) not null,
     "razonSocial" varchar(128),
     "nroRazonSocial" varchar(64),
-    "email" varchar(128)
+    "email" varchar(128),
+    "telefono" varchar(16)
 );
 create table "Huesped"(
     "id" serial primary key not null,
@@ -158,7 +160,7 @@ create table "PagoQr"(
     "idPago" serial references "Pago"(id) not null,
     "nroTransaccion" varchar(128) not null
 );
-create table "PagoTarjeta"(
+create table "PagoPos"(
     "idPago" serial references "Pago"(id) not null,
     "tipoTarjeta" varchar(16) not null,
     "ultimosDigTarjeta" int not null,

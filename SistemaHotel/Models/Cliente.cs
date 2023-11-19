@@ -11,11 +11,15 @@ public partial class Cliente
 
     public string Apellidos { get; set; } = null!;
 
+    public string Genero { get; set; } = null!;
+
     public string? RazonSocial { get; set; }
 
     public string? NroRazonSocial { get; set; }
 
     public string? Email { get; set; }
 
-    public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
+    public string? Telefono { get; set; }
+
+    public virtual ICollection<Reserva> Reserva { get; set; } = new List<Reserva>();
 }
