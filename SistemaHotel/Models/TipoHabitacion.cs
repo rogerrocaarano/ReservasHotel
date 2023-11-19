@@ -15,5 +15,5 @@ public partial class TipoHabitacion
 
     public double PrecioNoche { get; set; }
 
-    public virtual ICollection<Habitacion> Habitacions { get; set; } = new List<Habitacion>();
+    public virtual ICollection<Habitacion> Habitacion { get; set; } = new List<Habitacion>();
 }
