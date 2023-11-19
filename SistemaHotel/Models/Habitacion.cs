@@ -17,7 +17,7 @@ public partial class Habitacion
 
     public virtual TipoHabitacion IdTipoHabitacionNavigation { get; set; } = null!;
 
-    public virtual ICollection<InventarioReposicion> InventarioReposicions { get; set; } = new List<InventarioReposicion>();
+    public virtual ICollection<InventarioReposicion> InventarioReposicion { get; set; } = new List<InventarioReposicion>();
 
-    public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
+    public virtual ICollection<Reserva> Reserva { get; set; } = new List<Reserva>();
 }

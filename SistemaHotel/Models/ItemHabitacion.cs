@@ -11,5 +11,5 @@ public partial class ItemHabitacion
 
     public double Costo { get; set; }
 
-    public virtual ICollection<InventarioReposicion> InventarioReposicions { get; set; } = new List<InventarioReposicion>();
+    public virtual ICollection<InventarioReposicion> InventarioReposicion { get; set; } = new List<InventarioReposicion>();
 }
