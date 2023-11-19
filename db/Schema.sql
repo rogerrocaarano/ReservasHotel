@@ -64,7 +64,7 @@ create table "Huesped"(
 create table "TipoHabitacion"(
     "id" serial primary key not null,
     "nombre" varchar(128) not null,
-    "descripcion" varchar(256),
+    "descripcion" varchar(2048),
     "huespedesPermitidos" int not null,
     "precioNoche" float not null
 );
