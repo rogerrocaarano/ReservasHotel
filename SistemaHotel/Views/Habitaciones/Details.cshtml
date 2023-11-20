@@ -1,0 +1,42 @@
+@model Habitacion
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Habitacion</h4>
+    <hr/>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Número de habitación
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nro)
+        </dd>
+        <dt class="col-sm-2">
+            Tipo de habitación
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdTipoHabitacionNavigation.Nombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Habilitado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Habilitado)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reservado)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reservado)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
