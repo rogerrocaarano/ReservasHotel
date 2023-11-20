@@ -71,8 +71,8 @@ create table "TipoHabitacion"(
 create table "Habitacion"(
     "id" serial primary key not null,
     "idTipoHabitacion" serial references "TipoHabitacion"(id) not null,
-    "habilitado" bool default true,
-    "reservado" bool default false,
+    "habilitado" bool default true not null,
+    "reservado" bool default false not null,
     "nro" varchar(16) not null
 );
 create table "PaquetePromocional"(
