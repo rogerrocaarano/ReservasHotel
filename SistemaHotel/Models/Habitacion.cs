@@ -9,13 +9,13 @@ public partial class Habitacion
 
     public int IdTipoHabitacion { get; set; }
 
-    public bool? Habilitado { get; set; }
+    public bool Habilitado { get; set; } = true;
 
-    public bool? Reservado { get; set; }
+    public bool Reservado { get; set; } = false;
 
     public string Nro { get; set; } = null!;
 
-    public virtual TipoHabitacion IdTipoHabitacionNavigation { get; set; } = null!;
+    public virtual TipoHabitacion? IdTipoHabitacionNavigation { get; set; } = null!;
 
     public virtual ICollection<InventarioReposicion> InventarioReposicion { get; set; } = new List<InventarioReposicion>();
 
