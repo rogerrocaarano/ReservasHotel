@@ -19,11 +19,26 @@ namespace SistemaHotel.Controllers
         }
 
         // GET: Clientes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-              return _context.Cliente != null ? 
-                          View(await _context.Cliente.ToListAsync()) :
-                          Problem("Entity set 'Database.Cliente'  is null.");
+            if (_context.Cliente == null)
+            {
+                return Problem("La tabla no existe en la base de datos.");
+            }
+            // Definir la consulta a la base de datos
+            var clientes = from c in _context.Cliente select c;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                // Realizar la consulta a la base de datos
+                clientes = clientes.Where(c => 
+                    EF.Functions.ILike(c.Nombres, $"%{searchString}%") ||
+                    EF.Functions.ILike(c.Apellidos, $"%{searchString}%")
+                );
+                // clientes = clientes.Where(c => c.Nombres!.Contains(searchString));
+            }
+            // Ordenar los resultados alfabéticamente por el campo Nombres
+            clientes = clientes.OrderBy(c => c.Nombres);
+            return View(await clientes.ToListAsync());
         }
 
         // GET: Clientes/Details/5
