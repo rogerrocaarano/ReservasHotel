@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using SistemaHotel.Models;
 
-namespace SistemaHotel.Data;
+namespace SistemaHotel.Models;
 
-public partial class Database : IdentityDbContext
+public partial class Database : DbContext
 {
     public Database()
     {
