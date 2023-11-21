@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SistemaHotel.Models;
 
-namespace SistemaHotel.Models;
+namespace SistemaHotel.Data;
 
 public partial class Database : DbContext
 {

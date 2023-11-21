@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SistemaHotel.Data;
 using SistemaHotel.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,9 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 
-var connectionString = Environment.GetEnvironmentVariable("ReservasHotelDb");
-Console.WriteLine("connectionString: "+ connectionString);
-builder.Services.AddDbContext<Database>(options => options.UseNpgsql(connectionString));
+var connectionDb = Environment.GetEnvironmentVariable("ReservasHotelDb");
+var connectionIdentityDb = Environment.GetEnvironmentVariable("ReservasHotelIdentityDb");
+
+Console.WriteLine("Conectando la base de datos");
+builder.Services.AddDbContext<Database>(options => options.UseNpgsql(connectionDb));
+builder.Services.AddDbContext<IdentityDatabase>(options => options.UseNpgsql(connectionIdentityDb));
+
+// Configuración del servicio de Identity
+builder.Services.AddIdentity<Usuario,  IdentityRole<Guid>>()
+    .AddEntityFrameworkStores<IdentityDatabase>()
+    .AddDefaultTokenProviders();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +37,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
