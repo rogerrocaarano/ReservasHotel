@@ -4,6 +4,7 @@ using SistemaHotel.Data;
 using SistemaHotel.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+// var connectionString = builder.Configuration.GetConnectionString("IdentityDatabaseConnection") ?? throw new InvalidOperationException("Connection string 'IdentityDatabaseConnection' not found.");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -14,12 +15,16 @@ var connectionIdentityDb = Environment.GetEnvironmentVariable("ReservasHotelIden
 
 Console.WriteLine("Conectando la base de datos");
 builder.Services.AddDbContext<Database>(options => options.UseNpgsql(connectionDb));
+
+builder.Services.AddDefaultIdentity<Usuario>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDatabase>();
 builder.Services.AddDbContext<IdentityDatabase>(options => options.UseNpgsql(connectionIdentityDb));
 
-// Configuración del servicio de Identity
-builder.Services.AddIdentity<Usuario,  IdentityRole<Guid>>()
-    .AddEntityFrameworkStores<IdentityDatabase>()
-    .AddDefaultTokenProviders();
+// // Configuración del servicio de Identity
+// builder.Services.AddIdentity<Usuario,  IdentityRole<Guid>>()
+//     .AddEntityFrameworkStores<IdentityDatabase>()
+//     .AddDefaultTokenProviders();
+
+builder.Services.AddRazorPages();
 
 
 var app = builder.Build();
@@ -39,6 +44,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
