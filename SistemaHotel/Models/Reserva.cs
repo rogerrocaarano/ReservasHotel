@@ -19,7 +19,7 @@ public partial class Reserva
 
     public string? Estado { get; set; }
 
-    public virtual ICollection<Cobro> Cobros { get; set; } = new List<Cobro>();
+    public virtual ICollection<Cobro> Cobro { get; set; } = new List<Cobro>();
 
     public virtual Cliente IdClienteNavigation { get; set; } = null!;
 
