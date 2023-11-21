@@ -1,16 +1,35 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SistemaHotel.Data;
 using SistemaHotel.Models;
 
+// Definir parámetros de construcción de la aplicación
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// SERVICIOS
+
+// Añadir los controladores y sus respectivas vistas
 builder.Services.AddControllersWithViews();
 
+// Añadir las bases de datos
+// Definir las cadenas de conexión de las bases de datos desde variables de entorno
+var connectionDb = Environment.GetEnvironmentVariable("ReservasHotelDb");
+var connectionIdentityDb = Environment.GetEnvironmentVariable("ReservasHotelIdentityDb");
+// Conectar base de datos de almacenamiento
+builder.Services.AddDbContext<Database>(options =>
+    options.UseNpgsql(connectionDb));
+// Conectar base de datos de autenticación
+builder.Services.AddDefaultIdentity<Usuario>(options =>
+    options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDatabase>();
+builder.Services.AddDbContext<IdentityDatabase>(options =>
+    options.UseNpgsql(connectionIdentityDb));
 
-var connectionString = Environment.GetEnvironmentVariable("ReservasHotelDb");
-Console.WriteLine("connectionString: "+ connectionString);
-builder.Services.AddDbContext<Database>(options => options.UseNpgsql(connectionString));
+// Añadir soporte a RazorPages para la autenticación
+builder.Services.AddRazorPages();
+
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -22,10 +41,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",

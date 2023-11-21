@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SistemaHotel.Data;
 using SistemaHotel.Models;
 
 namespace SistemaHotel.Controllers;
 
+[Authorize]
 public class HabitacionesController : Controller
 {
     private readonly Database _context;

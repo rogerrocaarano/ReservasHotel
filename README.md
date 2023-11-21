@@ -4,19 +4,39 @@ Se desarrollará un sistema web, que se basará en los procesos más comunes que
 
 ## Preparación de entorno de desarrollo
 
-### Requerimientos
+### 1. Requerimientos
 
 - PosgreSQL versión 16
 - dotNET Framework versión 7
 
-### Variables de entorno
+### 2. Configuración de la base de datos
 
-- `ReservasHotelDb` - Define la conexión con la base de datos, debe tener
+Crear dos bases de datos para el proyecto
 
-```powershell
-setx ReservasHotelDb "Host=localhost;Database=ReservasHotel;Username=postgres;Password=****"
+```postgresql
+-- Base de datos para la aplicación
+create database "ReservasHotel";
+-- Base de datos para la autenticación en la aplicación
+create database "IdentityReservasHotel";
 ```
 
+Definir las siguientes variables de entorno en el sistema operativo para las cadenas de conexión de las bases de datos:
+- `ReservasHotelDb` - Define la conexión con la base de datos.
+- `ReservasHotelIdentityDb` - Define la conexión con la base de datos de identidad (autenticación y roles).
+
+Ejemplo de configuración en Windows:
+```powershell
+setx ReservasHotelDb "Host=localhost;Database=ReservasHotel;Username=postgres;Password=****"
+setx ReservasHotelIdentityDb "Host=localhost;Database=IdentiyReservasHotel;Username=postgres;Password=****"
+```
+
+Cargar el script `./db/Schema.sql` para cargar las tablas de la base de datos del sistema.
+### 3. Aplicar las migraciones de la base de datos de Identity
+
+```powershell
+cd SistemaHotel
+dotnet ef database update -c IdentityDatabase
+```
 ## Notas
 
 ### Actualizar modelo de base de datos
