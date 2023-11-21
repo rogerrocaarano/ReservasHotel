@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SistemaHotel.Data;
 using SistemaHotel.Models;
 
 var builder = WebApplication.CreateBuilder(args);
