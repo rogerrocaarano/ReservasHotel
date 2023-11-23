@@ -11,4 +11,8 @@ public class IdentityDatabase : IdentityDbContext<Usuario, IdentityRole<Guid>, G
     {
 
     }
+
+    public DbSet<Usuario> Usuarios { get; set; }
+
+    public DbSet<Rol> Roles { get; set; }
 }
