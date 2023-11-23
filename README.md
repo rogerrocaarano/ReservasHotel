@@ -23,11 +23,14 @@ create database "IdentityReservasHotel";
 Definir las siguientes variables de entorno en el sistema operativo para las cadenas de conexión de las bases de datos:
 - `ReservasHotelDb` - Define la conexión con la base de datos.
 - `ReservasHotelIdentityDb` - Define la conexión con la base de datos de identidad (autenticación y roles).
+- `ReservasHotelEmailAccount` - Define la cuenta de correo electrónico para el envío de correos electrónicos.
 
 Ejemplo de configuración en Windows:
-```powershell
+```cmd
 setx ReservasHotelDb "Host=localhost;Database=ReservasHotel;Username=postgres;Password=****"
 setx ReservasHotelIdentityDb "Host=localhost;Database=IdentiyReservasHotel;Username=postgres;Password=****"
+setx ReservasHotelEmailAccount "{\"host\":\"mail.reinseg.com\",\"port\":\"25\",\"useSsl\":\"false\"
+,\"username\":\"test@example.com\",\"password\":\"****\"}"
 ```
 
 Cargar el script `./db/Schema.sql` para cargar las tablas de la base de datos del sistema.
