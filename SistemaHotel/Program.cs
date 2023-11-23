@@ -1,41 +1,100 @@
+using System.Text.Json.Nodes;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using SistemaHotel.Data;
 using SistemaHotel.Models;
+using SistemaHotel.Services;
 
-// Definir parámetros de construcción de la aplicación
 var builder = WebApplication.CreateBuilder(args);
 
-// SERVICIOS
-
-// Añadir los controladores y sus respectivas vistas
-builder.Services.AddControllersWithViews();
-
-// Añadir las bases de datos
-// Definir las cadenas de conexión de las bases de datos desde variables de entorno
+/*
+ * VARIABLES DE ENTORNO
+ * Deben estar definidas en el sistema operativo las siguientes variables de entorno:
+ * - ReservasHotelDb: Cadena de conexión a la base de datos de reservas
+ * - ReservasHotelIdentityDb: Cadena de conexión a la base de datos de identidad
+ * - ReservasHotelEmailAccount: Cuenta de correo electrónico para el envío de mensajes
+ */
 var connectionDb = Environment.GetEnvironmentVariable("ReservasHotelDb");
 var connectionIdentityDb = Environment.GetEnvironmentVariable("ReservasHotelIdentityDb");
-// Conectar base de datos de almacenamiento
-builder.Services.AddDbContext<Database>(options =>
-    options.UseNpgsql(connectionDb));
-// Conectar base de datos de autenticación
-builder.Services.AddDefaultIdentity<Usuario>(options =>
-    options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDatabase>();
-builder.Services.AddDbContext<IdentityDatabase>(options =>
-    options.UseNpgsql(connectionIdentityDb));
+var systemEmailAccount = Environment.GetEnvironmentVariable("ReservasHotelEmailAccount");
 
-// Añadir soporte a RazorPages para la autenticación
-builder.Services.AddRazorPages();
+//Servicios de la aplicación
+var services = builder.Services;
+/*
+ * - ControllersWithViews: Controladores con vistas
+ * - Database: Base de datos del sistema
+ * - IdentityDatabase: Base de datos de identidad
+ * - Identity: Soporte para la autenticación de usuarios y roles
+ * - RazorPages: Páginas Razor
+ * - EmailSender: Servicio de envío de correos electrónicos
+ */
+
+services.AddDbContext<Database>(options => options.UseNpgsql(connectionDb));
+services.AddDbContext<IdentityDatabase>(options => options.UseNpgsql(connectionIdentityDb));
+
+services.AddIdentity<Usuario, Rol>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+        options.User.RequireUniqueEmail = true;
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequiredLength = 8;
+    })
+    .AddEntityFrameworkStores<IdentityDatabase>()
+    .AddDefaultTokenProviders();
+
+services.AddControllersWithViews();
+services.ConfigureApplicationCookie(options =>
+    {
+    options.LoginPath = "/Identity/Account/Login";
+    options.LogoutPath = "/Identity/Account/Logout";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
+
+services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+    options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+});
+
+
+var emailConfig = JsonNode.Parse(systemEmailAccount);
+
+var emailSender = new EmailSender(
+    host: emailConfig["host"].ToString(),
+    port: int.Parse(emailConfig["port"].ToString()),
+    useSsl: bool.Parse(emailConfig["useSsl"].ToString()),
+    username: emailConfig["username"].ToString(),
+    password: emailConfig["password"].ToString()
+);
+
+services.AddTransient<IEmailSender>(sp => emailSender);
 
 var app = builder.Build();
 
-
+// Crear roles de usuario si no existen
+var scope = app.Services.CreateScope();
+var serviceProvider = scope.ServiceProvider;
+var roleManager = serviceProvider.GetRequiredService<RoleManager<Rol>>();
+string[] roleNames = { "ADMINISTRADOR", "EMPLEADO", "CLIENTE", "CAJA", "RESERVA", "INVENTARIO" };
+foreach (var roleName in roleNames)
+{
+    if (!await roleManager.RoleExistsAsync(roleName))
+    {
+        await roleManager.CreateAsync(new Rol { Name = roleName });
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    // The default HSTS value is 30 days. You may want to change this for production scenarios,
+    // see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
