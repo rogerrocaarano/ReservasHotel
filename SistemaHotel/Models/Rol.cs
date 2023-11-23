@@ -2,7 +2,7 @@
 
 namespace SistemaHotel.Models;
 
-public partial class Usuario : IdentityUser<Guid>
+public partial class Rol : IdentityRole<Guid>
 {
-
+    
 }
