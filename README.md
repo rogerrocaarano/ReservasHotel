@@ -1,3 +1,7 @@
+# Sistema web para la realización y administración de reservas y registro de ingreso/salida de huéspedes para hoteles
+
+Se desarrollará un sistema web, que se basará en los procesos más comunes que puede requerir un establecimiento de la industria del hospedaje y hotelería; como ser la realización y gestión de reservas, registro de clientes y huéspedes, registro de check-in y check-out de huéspedes y todos los aspectos relacionados con el cobro de estas actividades. 
+
 ## Preparación de entorno de desarrollo
 
 ### 1. Requerimientos

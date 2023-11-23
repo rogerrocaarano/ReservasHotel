@@ -14,37 +14,37 @@ public partial class Database : DbContext
     {
     }
 
-    public virtual DbSet<CheckIn> CheckIns { get; set; }
+    public virtual DbSet<CheckIn> CheckIn { get; set; }
 
-    public virtual DbSet<CheckOut> CheckOuts { get; set; }
+    public virtual DbSet<CheckOut> CheckOut { get; set; }
 
-    public virtual DbSet<Cliente> Clientes { get; set; }
+    public virtual DbSet<Cliente> Cliente { get; set; }
 
-    public virtual DbSet<Cobro> Cobros { get; set; }
+    public virtual DbSet<Cobro> Cobro { get; set; }
 
-    public virtual DbSet<Habitacion> Habitaciones { get; set; }
+    public virtual DbSet<Habitacion> Habitacion { get; set; }
 
-    public virtual DbSet<Huesped> Huespedes { get; set; }
+    public virtual DbSet<Huesped> Huesped { get; set; }
 
-    public virtual DbSet<InventarioHabitacion> InventariosHabitacion { get; set; }
+    public virtual DbSet<InventarioHabitacion> InventarioHabitacion { get; set; }
 
-    public virtual DbSet<InventarioReposicion> InventariosReposicion { get; set; }
+    public virtual DbSet<InventarioReposicion> InventarioReposicion { get; set; }
 
-    public virtual DbSet<ItemHabitacion> ItemsHabitacion { get; set; }
+    public virtual DbSet<ItemHabitacion> ItemHabitacion { get; set; }
 
-    public virtual DbSet<Pago> Pagos { get; set; }
+    public virtual DbSet<Pago> Pago { get; set; }
 
-    public virtual DbSet<PagoQr> PagosQr { get; set; }
+    public virtual DbSet<PagoPos> PagoPos { get; set; }
 
-    public virtual DbSet<PagoStripe> PagosStripe { get; set; }
+    public virtual DbSet<PagoQr> PagoQr { get; set; }
 
-    public virtual DbSet<PagoTarjeta> PagosTarjeta { get; set; }
+    public virtual DbSet<PagoStripe> PagoStripe { get; set; }
 
-    public virtual DbSet<PaquetePromocional> PaquetesPromocionales { get; set; }
+    public virtual DbSet<PaquetePromocional> PaquetePromocional { get; set; }
 
-    public virtual DbSet<Reserva> Reservas { get; set; }
+    public virtual DbSet<Reserva> Reserva { get; set; }
 
-    public virtual DbSet<TipoHabitacion> TipoHabitaciones { get; set; }
+    public virtual DbSet<TipoHabitacion> TipoHabitacion { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
         optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("ReservasHotelDb"));
@@ -53,9 +53,7 @@ public partial class Database : DbContext
     {
         modelBuilder.Entity<CheckIn>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("CheckIn");
+            entity.HasNoKey();
 
             entity.Property(e => e.IdHabitacion)
                 .ValueGeneratedOnAdd()
@@ -81,9 +79,7 @@ public partial class Database : DbContext
 
         modelBuilder.Entity<CheckOut>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("CheckOut");
+            entity.HasNoKey();
 
             entity.Property(e => e.IdHabitacion)
                 .ValueGeneratedOnAdd()
@@ -111,8 +107,6 @@ public partial class Database : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Cliente_pkey");
 
-            entity.ToTable("Cliente");
-
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Apellidos)
                 .HasMaxLength(128)
@@ -120,6 +114,9 @@ public partial class Database : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(128)
                 .HasColumnName("email");
+            entity.Property(e => e.Genero)
+                .HasMaxLength(3)
+                .HasColumnName("genero");
             entity.Property(e => e.Nombres)
                 .HasMaxLength(128)
                 .HasColumnName("nombres");
@@ -129,13 +126,14 @@ public partial class Database : DbContext
             entity.Property(e => e.RazonSocial)
                 .HasMaxLength(128)
                 .HasColumnName("razonSocial");
+            entity.Property(e => e.Telefono)
+                .HasMaxLength(16)
+                .HasColumnName("telefono");
         });
 
         modelBuilder.Entity<Cobro>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Cobro_pkey");
-
-            entity.ToTable("Cobro");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Descripcion)
@@ -149,7 +147,7 @@ public partial class Database : DbContext
                 .HasColumnName("idReserva");
             entity.Property(e => e.Total).HasColumnName("total");
 
-            entity.HasOne(d => d.IdReservaNavigation).WithMany(p => p.Cobros)
+            entity.HasOne(d => d.IdReservaNavigation).WithMany(p => p.Cobro)
                 .HasForeignKey(d => d.IdReserva)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Cobro_idReserva_fkey");
@@ -158,8 +156,6 @@ public partial class Database : DbContext
         modelBuilder.Entity<Habitacion>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Habitacion_pkey");
-
-            entity.ToTable("Habitacion");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Habilitado)
@@ -175,7 +171,7 @@ public partial class Database : DbContext
                 .HasDefaultValueSql("false")
                 .HasColumnName("reservado");
 
-            entity.HasOne(d => d.IdTipoHabitacionNavigation).WithMany(p => p.Habitacions)
+            entity.HasOne(d => d.IdTipoHabitacionNavigation).WithMany(p => p.Habitacion)
                 .HasForeignKey(d => d.IdTipoHabitacion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Habitacion_idTipoHabitacion_fkey");
@@ -184,8 +180,6 @@ public partial class Database : DbContext
         modelBuilder.Entity<Huesped>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Huesped_pkey");
-
-            entity.ToTable("Huesped");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Apellidos)
@@ -207,9 +201,7 @@ public partial class Database : DbContext
 
         modelBuilder.Entity<InventarioHabitacion>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("InventarioHabitacion");
+            entity.HasNoKey();
 
             entity.Property(e => e.IdHabitacion)
                 .ValueGeneratedOnAdd()
@@ -233,8 +225,6 @@ public partial class Database : DbContext
         {
             entity.HasKey(e => e.Id).HasName("InventarioReposicion_pkey");
 
-            entity.ToTable("InventarioReposicion");
-
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.IdHabitacion)
                 .ValueGeneratedOnAdd()
@@ -243,12 +233,12 @@ public partial class Database : DbContext
                 .ValueGeneratedOnAdd()
                 .HasColumnName("idItemHabitacion");
 
-            entity.HasOne(d => d.IdHabitacionNavigation).WithMany(p => p.InventarioReposicions)
+            entity.HasOne(d => d.IdHabitacionNavigation).WithMany(p => p.InventarioReposicion)
                 .HasForeignKey(d => d.IdHabitacion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("InventarioReposicion_idHabitacion_fkey");
 
-            entity.HasOne(d => d.IdItemHabitacionNavigation).WithMany(p => p.InventarioReposicions)
+            entity.HasOne(d => d.IdItemHabitacionNavigation).WithMany(p => p.InventarioReposicion)
                 .HasForeignKey(d => d.IdItemHabitacion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("InventarioReposicion_idItemHabitacion_fkey");
@@ -257,8 +247,6 @@ public partial class Database : DbContext
         modelBuilder.Entity<ItemHabitacion>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("ItemHabitacion_pkey");
-
-            entity.ToTable("ItemHabitacion");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Costo).HasColumnName("costo");
@@ -271,62 +259,19 @@ public partial class Database : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Pago_pkey");
 
-            entity.ToTable("Pago");
-
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.IdCobro)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("idCobro");
             entity.Property(e => e.Monto).HasColumnName("monto");
 
-            entity.HasOne(d => d.IdCobroNavigation).WithMany(p => p.Pagos)
+            entity.HasOne(d => d.IdCobroNavigation).WithMany(p => p.Pago)
                 .HasForeignKey(d => d.IdCobro)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Pago_idCobro_fkey");
         });
 
-        modelBuilder.Entity<PagoQr>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("PagoQr");
-
-            entity.Property(e => e.IdPago)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("idPago");
-            entity.Property(e => e.NroTransaccion)
-                .HasMaxLength(128)
-                .HasColumnName("nroTransaccion");
-
-            entity.HasOne(d => d.IdPagoNavigation).WithMany()
-                .HasForeignKey(d => d.IdPago)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("PagoQr_idPago_fkey");
-        });
-
-        modelBuilder.Entity<PagoStripe>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("PagoStripe");
-
-            entity.Property(e => e.Estado)
-                .HasMaxLength(32)
-                .HasColumnName("estado");
-            entity.Property(e => e.IdPago)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("idPago");
-            entity.Property(e => e.IdStripe)
-                .HasMaxLength(64)
-                .HasColumnName("idStripe");
-
-            entity.HasOne(d => d.IdPagoNavigation).WithMany()
-                .HasForeignKey(d => d.IdPago)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("PagoStripe_idPago_fkey");
-        });
-
-        modelBuilder.Entity<PagoTarjeta>(entity =>
+        modelBuilder.Entity<PagoPos>(entity =>
         {
             entity.HasNoKey();
 
@@ -347,14 +292,49 @@ public partial class Database : DbContext
             entity.HasOne(d => d.IdPagoNavigation).WithMany()
                 .HasForeignKey(d => d.IdPago)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("PagoTarjeta_idPago_fkey");
+                .HasConstraintName("PagoPos_idPago_fkey");
+        });
+
+        modelBuilder.Entity<PagoQr>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.IdPago)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("idPago");
+            entity.Property(e => e.NroTransaccion)
+                .HasMaxLength(128)
+                .HasColumnName("nroTransaccion");
+
+            entity.HasOne(d => d.IdPagoNavigation).WithMany()
+                .HasForeignKey(d => d.IdPago)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("PagoQr_idPago_fkey");
+        });
+
+        modelBuilder.Entity<PagoStripe>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.Estado)
+                .HasMaxLength(32)
+                .HasColumnName("estado");
+            entity.Property(e => e.IdPago)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("idPago");
+            entity.Property(e => e.IdStripe)
+                .HasMaxLength(64)
+                .HasColumnName("idStripe");
+
+            entity.HasOne(d => d.IdPagoNavigation).WithMany()
+                .HasForeignKey(d => d.IdPago)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("PagoStripe_idPago_fkey");
         });
 
         modelBuilder.Entity<PaquetePromocional>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PaquetePromocional_pkey");
-
-            entity.ToTable("PaquetePromocional");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Descripcion)
@@ -381,8 +361,6 @@ public partial class Database : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Reserva_pkey");
 
-            entity.ToTable("Reserva");
-
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Estado)
                 .HasMaxLength(32)
@@ -405,12 +383,12 @@ public partial class Database : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("inicioReserva");
 
-            entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Reservas)
+            entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Reserva)
                 .HasForeignKey(d => d.IdCliente)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Reserva_idCliente_fkey");
 
-            entity.HasOne(d => d.IdHabitacionNavigation).WithMany(p => p.Reservas)
+            entity.HasOne(d => d.IdHabitacionNavigation).WithMany(p => p.Reserva)
                 .HasForeignKey(d => d.IdHabitacion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Reserva_idHabitacion_fkey");
@@ -419,8 +397,6 @@ public partial class Database : DbContext
         modelBuilder.Entity<TipoHabitacion>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("TipoHabitacion_pkey");
-
-            entity.ToTable("TipoHabitacion");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Descripcion)
