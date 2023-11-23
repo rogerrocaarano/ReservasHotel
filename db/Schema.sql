@@ -11,36 +11,6 @@ begin
 end
 $$;
 
--- Usuarios y Roles del sistema Web
-
--- create table "Roles"(
---     "id" serial primary key not null,
---     "rol" varchar(32) not null
--- );
--- insert into "Roles"("rol") VALUES ('ADMINISTRADOR'),
---                                   ('CLIENTE'),
---                                   ('RECEPCION'),
---                                   ('RESERVA'),
---                                   ('INVENTARIO'),
---                                   ('CAJA');
--- create table "Usuarios"(
---     "id" serial primary key not null,
---     "usuario" varchar(64) not null,
---     "hashPassword" varchar(512) not null,
---     "salHash" varchar(64) not null,
---     "habilitado" boolean default true
--- );
--- create table "RolUsuario"(
---     "idUsuario" serial references "Usuarios"(id) not null,
---     "idRol" serial references "Roles"(id) not null
--- );
-
--- 2023-11-16: Manejaremos la autenticación mediante ASP.Net Core Identity.
--- Referencias:
--- https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-7.0&tabs=visual-studio
--- https://www.c-sharpcorner.com/article/how-to-add-authentication-in-asp-net-core-6-mvc-project-using-identity/
-
-
 -- Entidades principales del negocio
 
 create table "Cliente"(
