@@ -32,7 +32,7 @@ var services = builder.Services;
  */
 
 services.AddDbContext<Database>(options => options.UseNpgsql(connectionDb));
-services.AddDbContext<IdentityDatabase>(options => options.UseNpgsql(connectionIdentityDb));
+services.AddDbContext<IdentityDatabase>(options => options.UseNpgsql(connectionDb));
 
 services.AddIdentity<Usuario, Rol>(options =>
     {
