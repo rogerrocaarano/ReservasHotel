@@ -7,22 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaHotel.Data;
 using SistemaHotel.Models;
+using System.IO;
+using Newtonsoft.Json;
+using SistemaHotel.Deserializers;
 
 namespace SistemaHotel.Controllers
 {
     public class HuespedesController : Controller
     {
         private readonly Database _context;
+        private IWebHostEnvironment _hostingEnvironment;
 
-        public HuespedesController(Database context)
+        public HuespedesController(Database context, IWebHostEnvironment environment)
         {
             _context = context;
+            _hostingEnvironment = environment;
         }
 
         // GET: Huespedes
         public async Task<IActionResult> Index()
         {
-              return _context.Huesped != null ? 
+              return _context.Huesped != null ?
                           View(await _context.Huesped.ToListAsync()) :
                           Problem("Entity set 'Database.Huesped'  is null.");
         }
@@ -48,6 +53,13 @@ namespace SistemaHotel.Controllers
         // GET: Huespedes/Create
         public IActionResult Create()
         {
+            var jsonFilePath = Path.Combine(_hostingEnvironment.WebRootPath, "json", "nacionalidades.json");
+            var jsonData = System.IO.File.ReadAllText(jsonFilePath);
+            var data = JsonConvert.DeserializeObject<PaisesData>(jsonData);
+            // Convertir la lista de paises a un diccionario
+            var dictPaises = data.Paises.ToDictionary(p => p.Nombre, p => p.Nacionalidad);
+            var nacionalidades = dictPaises.Values.ToList();
+            ViewBag.Nacionalidades = nacionalidades;
             return View();
         }
 
@@ -150,7 +162,7 @@ namespace SistemaHotel.Controllers
             {
                 _context.Huesped.Remove(huesped);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

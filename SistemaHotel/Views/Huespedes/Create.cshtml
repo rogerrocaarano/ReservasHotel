@@ -30,57 +30,20 @@
             <div class="form-group">
                 <label asp-for="TipoDocIdentidad" class="control-label"></label>
                 <span asp-validation-for="TipoDocIdentidad" class="text-danger"></span>
-                <select class="form-group" id="select-Documento" data-live-search="true" runat="server">
-                                                                        <option data-tokens="DNI">DNI</option>
-                                                                        <option data-tokens="Pasaporte">Pasaporte</option>
-                                                                    </select>
+                <select class="form-select" asp-for="TipoDocIdentidad">
+                    <option value="DNI">DNI</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Nacionalidad" class="control-label"></label>
-                
-                <span asp-validation-for="Nacionalidad" class="text-danger"></span>
-                
-                <!DOCTYPE html>
-                <html xmlns="http://www.w3.org/1999/xhtml">
-                <head runat="server">
-                    <title></title>
-                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-                    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-                    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
-                </head>
-                <body>
-                    <form id="form1" runat="server">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <div class="box">
-                                        <div class="box-body">
-                                            <div class="form-group row">
-                                                <label for="" class="col-sm-2 form-control-label">Pais</label>
-                                                <div class="col-sm-5">
-                                                    <select class="form-control selectpicker" id="select-contry" data-live-search="true" runat="server">
-                                                        <option data-tokens="china">China</option>
-                                                        <option data-tokens="malayasia">Malayasia</option>
-                                                        <option data-tokens="singapore">Singapore</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </body>
-                </html>
-                
-                
-
-                        
-            
-            
+                <input class="form-control" value="" oninput="seleccionarOpcionesPorTexto(value,'dropdownNacionalidad')"/>
+                <select class="form-select" asp-for="Nacionalidad" id="dropdownNacionalidad">
+                    @foreach (var nacionalidad in @ViewBag.Nacionalidades)
+                    {
+                        <option value="@nacionalidad">@nacionalidad</option>
+                    }
+                </select>
                 </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -92,4 +55,6 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+<script src="~/js/select-liveSearch.js"></script>
 
