@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
  * Deben estar definidas en el sistema operativo las siguientes variables de entorno:
  * - ReservasHotelDb: Cadena de conexión a la base de datos del sistema
  * - ReservasHotelEmailAccount: Cuenta de correo electrónico para el envío de mensajes
+ * - ReservasHotelAdminEmail: Cuenta de correo del usuario ADministrador
  */
 var connectionDb = Environment.GetEnvironmentVariable("ReservasHotelDb");
 var systemEmailAccount = Environment.GetEnvironmentVariable("ReservasHotelEmailAccount");
