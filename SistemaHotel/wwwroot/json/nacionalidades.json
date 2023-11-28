@@ -1,0 +1,780 @@
+{
+  "paises": [
+    {
+      "nombre": "Afganistán",
+      "nacionalidad": "Afgano/na"
+    },
+    {
+      "nombre": "Albania",
+      "nacionalidad": "Albanés/sa"
+    },
+    {
+      "nombre": "Alemania",
+      "nacionalidad": "Alemán/na"
+    },
+    {
+      "nombre": "Andorra",
+      "nacionalidad": "Andorrano/na"
+    },
+    {
+      "nombre": "Angola",
+      "nacionalidad": "Angoleño/ña; Angolano/na"
+    },
+    {
+      "nombre": "Antigua y Barbuda",
+      "nacionalidad": "Antiguano/na"
+    },
+    {
+      "nombre": "Arabia Saudita",
+      "nacionalidad": "Saudí o saudita"
+    },
+    {
+      "nombre": "Argelia",
+      "nacionalidad": "Argelino/na"
+    },
+    {
+      "nombre": "Argentina",
+      "nacionalidad": "Argentino/a"
+    },
+    {
+      "nombre": "Armenia",
+      "nacionalidad": "Armenio/nia"
+    },
+    {
+      "nombre": "Australia",
+      "nacionalidad": "Australiano/na"
+    },
+    {
+      "nombre": "Austria",
+      "nacionalidad": "Austriaco/ca; Austríaco/ca"
+    },
+    {
+      "nombre": "Azerbaiyán",
+      "nacionalidad": "Azerbaiyano/na"
+    },
+    {
+      "nombre": "Bahamas",
+      "nacionalidad": "Bahameño/ña"
+    },
+    {
+      "nombre": "Bangladés",
+      "nacionalidad": "Bangladesí"
+    },
+    {
+      "nombre": "Barbados",
+      "nacionalidad": "Barbadense"
+    },
+    {
+      "nombre": "Baréin",
+      "nacionalidad": "Bareiní"
+    },
+    {
+      "nombre": "Bélgica",
+      "nacionalidad": "Belga"
+    },
+    {
+      "nombre": "Belice",
+      "nacionalidad": "Beliceño/ña"
+    },
+    {
+      "nombre": "Benín",
+      "nacionalidad": "Beninés/sa"
+    },
+    {
+      "nombre": "Bielorrusia",
+      "nacionalidad": "Bielorruso/sa"
+    },
+    {
+      "nombre": "Birmania",
+      "nacionalidad": "Birmano/na"
+    },
+    {
+      "nombre": "Bolivia",
+      "nacionalidad": "Boliviano/a"
+    },
+    {
+      "nombre": "Bosnia y Herzegovina",
+      "nacionalidad": "Bosnio/nia; Bosnioherzegovino/na"
+    },
+    {
+      "nombre": "Botsuana",
+      "nacionalidad": "Botsuano/na"
+    },
+    {
+      "nombre": "Brasil",
+      "nacionalidad": "Brasileño/a; Brasilero/a"
+    },
+    {
+      "nombre": "Brunéi",
+      "nacionalidad": "Bruneano/na"
+    },
+    {
+      "nombre": "Bulgaria",
+      "nacionalidad": "Búlgaro/ra"
+    },
+    {
+      "nombre": "Burkina Faso",
+      "nacionalidad": "Burkinés"
+    },
+    {
+      "nombre": "Burundi",
+      "nacionalidad": "Burundés/sa"
+    },
+    {
+      "nombre": "Bután",
+      "nacionalidad": "Butanés/sa"
+    },
+    {
+      "nombre": "Cabo Verde",
+      "nacionalidad": "Caboverdiano/na"
+    },
+    {
+      "nombre": "Camboya",
+      "nacionalidad": "Camboyano/na"
+    },
+    {
+      "nombre": "Camerún",
+      "nacionalidad": "Camerunés/sa"
+    },
+    {
+      "nombre": "Canadá",
+      "nacionalidad": "Canadiense"
+    },
+    {
+      "nombre": "Catar",
+      "nacionalidad": "Catarí"
+    },
+    {
+      "nombre": "Chad",
+      "nacionalidad": "Chadiano/na"
+    },
+    {
+      "nombre": "Chile",
+      "nacionalidad": "Chileno/a"
+    },
+    {
+      "nombre": "China",
+      "nacionalidad": "Chino/na"
+    },
+    {
+      "nombre": "Chipre",
+      "nacionalidad": "Chipriota"
+    },
+    {
+      "nombre": "Ciudad del Vaticano",
+      "nacionalidad": "Vaticano/na"
+    },
+    {
+      "nombre": "Colombia",
+      "nacionalidad": "Colombiano/a"
+    },
+    {
+      "nombre": "Comoras",
+      "nacionalidad": "Comorense"
+    },
+    {
+      "nombre": "Corea del Norte",
+      "nacionalidad": "Norcoreano/na"
+    },
+    {
+      "nombre": "Corea del Sur",
+      "nacionalidad": "Surcoreano/na"
+    },
+    {
+      "nombre": "Costa de Marfil",
+      "nacionalidad": "Marfileño/ña"
+    },
+    {
+      "nombre": "Costa Rica",
+      "nacionalidad": "Costarricense"
+    },
+    {
+      "nombre": "Croacia",
+      "nacionalidad": "Croata"
+    },
+    {
+      "nombre": "Cuba",
+      "nacionalidad": "Cubano/a"
+    },
+    {
+      "nombre": "Dinamarca",
+      "nacionalidad": "Danés/sa"
+    },
+    {
+      "nombre": "Dominica",
+      "nacionalidad": "Dominiqués"
+    },
+    {
+      "nombre": "Ecuador",
+      "nacionalidad": "Ecuatoriano/a"
+    },
+    {
+      "nombre": "Egipto",
+      "nacionalidad": "Egipcio/cia"
+    },
+    {
+      "nombre": "El Salvador",
+      "nacionalidad": "Salvadoreño/ña"
+    },
+    {
+      "nombre": "Emiratos Árabes Unidos",
+      "nacionalidad": "Emiratí"
+    },
+    {
+      "nombre": "Eritrea",
+      "nacionalidad": "Eritreo/a"
+    },
+    {
+      "nombre": "Eslovaquia",
+      "nacionalidad": "Eslovaco/ca"
+    },
+    {
+      "nombre": "Eslovenia",
+      "nacionalidad": "Esloveno/na"
+    },
+    {
+      "nombre": "España",
+      "nacionalidad": "Español/la"
+    },
+    {
+      "nombre": "Estados Unidos",
+      "nacionalidad": "Estadounidense"
+    },
+    {
+      "nombre": "Estonia",
+      "nacionalidad": "Estonio/nia"
+    },
+    {
+      "nombre": "Etiopía",
+      "nacionalidad": "Etíope"
+    },
+    {
+      "nombre": "Filipinas",
+      "nacionalidad": "Filipino/na"
+    },
+    {
+      "nombre": "Finlandia",
+      "nacionalidad": "Finlandés/sa"
+    },
+    {
+      "nombre": "Fiyi",
+      "nacionalidad": "Fiyiano/na"
+    },
+    {
+      "nombre": "Francia",
+      "nacionalidad": "Francés/sa"
+    },
+    {
+      "nombre": "Gabón",
+      "nacionalidad": "Gabonés/sa"
+    },
+    {
+      "nombre": "Gambia",
+      "nacionalidad": "Gambiano/na"
+    },
+    {
+      "nombre": "Georgia",
+      "nacionalidad": "Georgiano/na"
+    },
+    {
+      "nombre": "Ghana",
+      "nacionalidad": "Ghanés/sa"
+    },
+    {
+      "nombre": "Granada",
+      "nacionalidad": "Granadino/a"
+    },
+    {
+      "nombre": "Grecia",
+      "nacionalidad": "Griego/ga"
+    },
+    {
+      "nombre": "Guatemala",
+      "nacionalidad": "Guatemalteco/a"
+    },
+    {
+      "nombre": "Guinea ecuatorial",
+      "nacionalidad": "Ecuatoguineano/na"
+    },
+    {
+      "nombre": "Guinea",
+      "nacionalidad": "Guineano/na"
+    },
+    {
+      "nombre": "Guinea-Bisáu",
+      "nacionalidad": "Guineano/na"
+    },
+    {
+      "nombre": "Guyana",
+      "nacionalidad": "Guyanés/esa"
+    },
+    {
+      "nombre": "Haití",
+      "nacionalidad": "Haitiano/a"
+    },
+    {
+      "nombre": "Honduras",
+      "nacionalidad": "Hondureño/a"
+    },
+    {
+      "nombre": "Hungría",
+      "nacionalidad": "Húngaro/ra"
+    },
+    {
+      "nombre": "India",
+      "nacionalidad": "Indio/dia"
+    },
+    {
+      "nombre": "Indonesia",
+      "nacionalidad": "Indonesio/sia"
+    },
+    {
+      "nombre": "Irak",
+      "nacionalidad": "Iraquí"
+    },
+    {
+      "nombre": "Irán",
+      "nacionalidad": "Iraní"
+    },
+    {
+      "nombre": "Irlanda",
+      "nacionalidad": "Irlandés/sa"
+    },
+    {
+      "nombre": "Islandia",
+      "nacionalidad": "Islandés/sa"
+    },
+    {
+      "nombre": "Islas Marshall",
+      "nacionalidad": "Marshalés/sa"
+    },
+    {
+      "nombre": "Islas Salomón",
+      "nacionalidad": "Salomonense"
+    },
+    {
+      "nombre": "Israel",
+      "nacionalidad": "Israelí"
+    },
+    {
+      "nombre": "Italia",
+      "nacionalidad": "Italiano/na"
+    },
+    {
+      "nombre": "Jamaica",
+      "nacionalidad": "Jamaicano/na o Jamaiquino/na"
+    },
+    {
+      "nombre": "Japón",
+      "nacionalidad": "Japonés/sa"
+    },
+    {
+      "nombre": "Jordania",
+      "nacionalidad": "Jordano/na"
+    },
+    {
+      "nombre": "Kazajistán",
+      "nacionalidad": "Kazajo/ja"
+    },
+    {
+      "nombre": "Kenia",
+      "nacionalidad": "Keniano/na; Keniata"
+    },
+    {
+      "nombre": "Kirguistán",
+      "nacionalidad": "Kirguís; Kirguiso/sa"
+    },
+    {
+      "nombre": "Kiribati",
+      "nacionalidad": "Kiribatiano/na"
+    },
+    {
+      "nombre": "Kuwait",
+      "nacionalidad": "Kuwaití"
+    },
+    {
+      "nombre": "Laos",
+      "nacionalidad": "Laosiano/na"
+    },
+    {
+      "nombre": "Lesoto",
+      "nacionalidad": "Lesotense"
+    },
+    {
+      "nombre": "Letonia",
+      "nacionalidad": "Letón/na"
+    },
+    {
+      "nombre": "Líbano",
+      "nacionalidad": "Libanés/sa"
+    },
+    {
+      "nombre": "Liberia",
+      "nacionalidad": "Liberiano/na"
+    },
+    {
+      "nombre": "Libia",
+      "nacionalidad": "Libio/a"
+    },
+    {
+      "nombre": "Liechtenstein",
+      "nacionalidad": "liechtensteiniano/na"
+    },
+    {
+      "nombre": "Lituania",
+      "nacionalidad": "Lituano/na"
+    },
+    {
+      "nombre": "Luxemburgo",
+      "nacionalidad": "Luxemburgués/sa"
+    },
+    {
+      "nombre": "Madagascar",
+      "nacionalidad": "Malgache"
+    },
+    {
+      "nombre": "Malasia",
+      "nacionalidad": "Malasio/sia"
+    },
+    {
+      "nombre": "Malaui",
+      "nacionalidad": "Malauí"
+    },
+    {
+      "nombre": "Maldivas",
+      "nacionalidad": "Maldivo/va"
+    },
+    {
+      "nombre": "Malí",
+      "nacionalidad": "Maliense, Malí"
+    },
+    {
+      "nombre": "Malta",
+      "nacionalidad": "Maltés/sa"
+    },
+    {
+      "nombre": "Marruecos",
+      "nacionalidad": "Marroquí"
+    },
+    {
+      "nombre": "Mauricio",
+      "nacionalidad": "Mauriciano/na"
+    },
+    {
+      "nombre": "Mauritania",
+      "nacionalidad": "Mauritano/na"
+    },
+    {
+      "nombre": "México",
+      "nacionalidad": "Mexicano/a"
+    },
+    {
+      "nombre": "Micronesia",
+      "nacionalidad": "Micronesio/sia"
+    },
+    {
+      "nombre": "Moldavia",
+      "nacionalidad": "Moldavo/va"
+    },
+    {
+      "nombre": "Mónaco",
+      "nacionalidad": "Monegasco/ca"
+    },
+    {
+      "nombre": "Mongolia",
+      "nacionalidad": "Mongol/la"
+    },
+    {
+      "nombre": "Montenegro",
+      "nacionalidad": "Montenegrino/na"
+    },
+    {
+      "nombre": "Mozambique",
+      "nacionalidad": "Mozambiqueño/ña"
+    },
+    {
+      "nombre": "Namibia",
+      "nacionalidad": "Namibio/bia"
+    },
+    {
+      "nombre": "Nauru",
+      "nacionalidad": "Nauruano/na"
+    },
+    {
+      "nombre": "Nepal",
+      "nacionalidad": "Nepalés/sa; Nepalí"
+    },
+    {
+      "nombre": "Nicaragua",
+      "nacionalidad": "Nicaragüense"
+    },
+    {
+      "nombre": "Níger",
+      "nacionalidad": "Nigerino/na"
+    },
+    {
+      "nombre": "Nigeria",
+      "nacionalidad": "Nigeriano /na"
+    },
+    {
+      "nombre": "Noruega",
+      "nacionalidad": "Noruego/ga"
+    },
+    {
+      "nombre": "Nueva Zelanda",
+      "nacionalidad": "Neozelandés/sa"
+    },
+    {
+      "nombre": "Omán",
+      "nacionalidad": "Omaní"
+    },
+    {
+      "nombre": "Países Bajos",
+      "nacionalidad": "Neerlandés/sa"
+    },
+    {
+      "nombre": "Pakistán",
+      "nacionalidad": "Pakistaní"
+    },
+    {
+      "nombre": "Palaos",
+      "nacionalidad": "Palauano/na"
+    },
+    {
+      "nombre": "Panamá",
+      "nacionalidad": "Panameño/ña"
+    },
+    {
+      "nombre": "Papúa Nueva Guinea",
+      "nacionalidad": "Papú"
+    },
+    {
+      "nombre": "Paraguay",
+      "nacionalidad": "Paraguayo/a"
+    },
+    {
+      "nombre": "Perú",
+      "nacionalidad": "Peruano/a"
+    },
+    {
+      "nombre": "Polonia",
+      "nacionalidad": "Polaco/ca"
+    },
+    {
+      "nombre": "Portugal",
+      "nacionalidad": "Portugués/sa"
+    },
+    {
+      "nombre": "Reino Unido",
+      "nacionalidad": "Británico/ca"
+    },
+    {
+      "nombre": "República Centroafricana",
+      "nacionalidad": "Centroafricano/na"
+    },
+    {
+      "nombre": "República Checa",
+      "nacionalidad": "Checo/ca"
+    },
+    {
+      "nombre": "República de Macedonia",
+      "nacionalidad": "Macedonio/nia"
+    },
+    {
+      "nombre": "República del Congo",
+      "nacionalidad": "Congoleño/ña"
+    },
+    {
+      "nombre": "República Democrática del Congo",
+      "nacionalidad": "Congoleño/ña"
+    },
+    {
+      "nombre": "República Dominicana",
+      "nacionalidad": "Dominicano/na"
+    },
+    {
+      "nombre": "República Sudafricana",
+      "nacionalidad": "Sudafricano/na"
+    },
+    {
+      "nombre": "Ruanda",
+      "nacionalidad": "Ruandés/sa"
+    },
+    {
+      "nombre": "Rumanía",
+      "nacionalidad": "Rumano/na"
+    },
+    {
+      "nombre": "Rusia",
+      "nacionalidad": "Ruso/sa"
+    },
+    {
+      "nombre": "Samoa",
+      "nacionalidad": "Samoano/na"
+    },
+    {
+      "nombre": "San Cristóbal y Nieves",
+      "nacionalidad": "Cristobaleño/ña"
+    },
+    {
+      "nombre": "San Marino",
+      "nacionalidad": "Sanmarinense"
+    },
+    {
+      "nombre": "San Vicente y las Granadinas",
+      "nacionalidad": "Sanvicentino/na"
+    },
+    {
+      "nombre": "Santa Lucía",
+      "nacionalidad": "Santalucense"
+    },
+    {
+      "nombre": "Santo Tomé y Príncipe",
+      "nacionalidad": "Santotomense"
+    },
+    {
+      "nombre": "Senegal",
+      "nacionalidad": "Senegalés/sa"
+    },
+    {
+      "nombre": "Serbia",
+      "nacionalidad": "Serbio/a"
+    },
+    {
+      "nombre": "Seychelles",
+      "nacionalidad": "Seychellense"
+    },
+    {
+      "nombre": "Sierra Leona",
+      "nacionalidad": "Sierraleonés/sa"
+    },
+    {
+      "nombre": "Singapur",
+      "nacionalidad": "Singapurense"
+    },
+    {
+      "nombre": "Siria",
+      "nacionalidad": "Sirio/ria"
+    },
+    {
+      "nombre": "Somalia",
+      "nacionalidad": "Somalí"
+    },
+    {
+      "nombre": "Sri Lanka",
+      "nacionalidad": "Ceilanés/sa; Ceilandés; Esrilanqués/sa"
+    },
+    {
+      "nombre": "Suazilandia",
+      "nacionalidad": "Suazi"
+    },
+    {
+      "nombre": "Sudán del Sur",
+      "nacionalidad": "Sursudanés/sa"
+    },
+    {
+      "nombre": "Sudán",
+      "nacionalidad": "Sudanés/sa"
+    },
+    {
+      "nombre": "Suecia",
+      "nacionalidad": "Sueco/ca"
+    },
+    {
+      "nombre": "Suiza",
+      "nacionalidad": "Suizo/za"
+    },
+    {
+      "nombre": "Surinam",
+      "nacionalidad": "Surinamés/esa"
+    },
+    {
+      "nombre": "Tailandia",
+      "nacionalidad": "Tailandés/sa"
+    },
+    {
+      "nombre": "Tanzania",
+      "nacionalidad": "Tanzano/na"
+    },
+    {
+      "nombre": "Tayikistán",
+      "nacionalidad": "Tayiko/ka"
+    },
+    {
+      "nombre": "Timor Oriental",
+      "nacionalidad": "Timorense"
+    },
+    {
+      "nombre": "Togo",
+      "nacionalidad": "Togolés/sa"
+    },
+    {
+      "nombre": "Tonga",
+      "nacionalidad": "Tongano/na"
+    },
+    {
+      "nombre": "Trinidad y Tobago",
+      "nacionalidad": "Trinitense"
+    },
+    {
+      "nombre": "Túnez",
+      "nacionalidad": "Tunecino/na"
+    },
+    {
+      "nombre": "Turkmenistán",
+      "nacionalidad": "Turcomano/na; Turkmeno/na"
+    },
+    {
+      "nombre": "Turquía",
+      "nacionalidad": "Turco/ca"
+    },
+    {
+      "nombre": "Tuvalu",
+      "nacionalidad": "Tuvaluano/na"
+    },
+    {
+      "nombre": "Ucrania",
+      "nacionalidad": "Ucraniano/na"
+    },
+    {
+      "nombre": "Uganda",
+      "nacionalidad": "Ugandés/sa"
+    },
+    {
+      "nombre": "Uruguay",
+      "nacionalidad": "Uruguayo/a"
+    },
+    {
+      "nombre": "Uzbekistán",
+      "nacionalidad": "Uzbeko/ka"
+    },
+    {
+      "nombre": "Vanuatu",
+      "nacionalidad": "Vanuatuense"
+    },
+    {
+      "nombre": "Venezuela",
+      "nacionalidad": "Venezolano/a"
+    },
+    {
+      "nombre": "Vietnam",
+      "nacionalidad": "Vietnamita"
+    },
+    {
+      "nombre": "Yemen",
+      "nacionalidad": "Yemení"
+    },
+    {
+      "nombre": "Yibuti",
+      "nacionalidad": "Yibutiano/na"
+    },
+    {
+      "nombre": "Zambia",
+      "nacionalidad": "Zambiano/na"
+    },
+    {
+      "nombre": "Zimbabue",
+      "nacionalidad": "Zimbabuense"
+    }
+  ]
+}
