@@ -1,5 +1,4 @@
 using System.Text.Json.Nodes;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -12,13 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 /*
  * VARIABLES DE ENTORNO
  * Deben estar definidas en el sistema operativo las siguientes variables de entorno:
- * - ReservasHotelDb: Cadena de conexión a la base de datos de reservas
- * - ReservasHotelIdentityDb: Cadena de conexión a la base de datos de identidad
+ * - ReservasHotelDb: Cadena de conexión a la base de datos del sistema
  * - ReservasHotelEmailAccount: Cuenta de correo electrónico para el envío de mensajes
  */
 var connectionDb = Environment.GetEnvironmentVariable("ReservasHotelDb");
-var connectionIdentityDb = Environment.GetEnvironmentVariable("ReservasHotelIdentityDb");
 var systemEmailAccount = Environment.GetEnvironmentVariable("ReservasHotelEmailAccount");
+var adminEmail = Environment.GetEnvironmentVariable("ReservasHotelAdminEmail");
 
 //Servicios de la aplicación
 var services = builder.Services;
@@ -87,6 +85,28 @@ foreach (var roleName in roleNames)
     {
         await roleManager.CreateAsync(new Rol { Name = roleName });
     }
+}
+
+// Crear usuario administrador y asignar los roles necesarios
+var userManager = serviceProvider.GetRequiredService<UserManager<Usuario>>();
+if (adminEmail != null)
+{
+    var user = await userManager.FindByEmailAsync(adminEmail);
+    if (user != null)
+    {
+        user = new Usuario
+        {
+            Email = adminEmail
+        };
+        await userManager.CreateAsync(user);
+        user = await userManager.FindByEmailAsync(adminEmail);
+    }
+    var adminRoles = new List<string>
+    {
+        "ADMINISTRADOR",
+        "EMPLEADO"
+    };
+    if (user != null) await userManager.AddToRolesAsync(user, adminRoles);
 }
 
 // Configure the HTTP request pipeline.
