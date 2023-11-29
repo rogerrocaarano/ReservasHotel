@@ -90,6 +90,14 @@ namespace SistemaHotel.Areas.Identity.Pages.Account
             [Display(Name = "Password")]
             public string Password { get; set; }
 
+            [Required]
+            [Display(Name = "Nombres")]
+            public string Nombres { get; set; }
+
+            [Required]
+            [Display(Name = "Apellidos")]
+            public string Apellidos { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -113,10 +121,13 @@ namespace SistemaHotel.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
-
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                var user = new Usuario
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    Nombres = Input.Nombres,
+                    Apellidos = Input.Apellidos
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
