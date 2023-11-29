@@ -88,20 +88,11 @@ foreach (var roleName in roleNames)
     }
 }
 
-// Crear usuario administrador y asignar los roles necesarios
+// Asignar roles al usuario administrador
 var userManager = serviceProvider.GetRequiredService<UserManager<Usuario>>();
 if (adminEmail != null)
 {
     var user = await userManager.FindByEmailAsync(adminEmail);
-    if (user != null)
-    {
-        user = new Usuario
-        {
-            Email = adminEmail
-        };
-        await userManager.CreateAsync(user);
-        user = await userManager.FindByEmailAsync(adminEmail);
-    }
     var adminRoles = new List<string>
     {
         "ADMINISTRADOR",

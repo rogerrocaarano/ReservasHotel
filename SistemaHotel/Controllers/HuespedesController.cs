@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using SistemaHotel.Data;
 using SistemaHotel.Models;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using SistemaHotel.Deserializers;
 
 namespace SistemaHotel.Controllers
 {
+    [Authorize (Roles = "EMPLEADO")]
     public class HuespedesController : Controller
     {
         private readonly Database _context;

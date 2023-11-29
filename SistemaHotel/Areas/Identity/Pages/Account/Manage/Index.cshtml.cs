@@ -46,6 +46,7 @@ namespace SistemaHotel.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -59,18 +60,27 @@ namespace SistemaHotel.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Nombres")]
+            public string Nombres { get; set; }
+            [Display(Name = "Apellidos")]
+            public string Apellidos { get; set; }
         }
 
         private async Task LoadAsync(Usuario user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var nombres = user.Nombres;
+            var apellidos = user.Apellidos;
 
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Nombres = nombres,
+                Apellidos = apellidos
             };
         }
 
@@ -109,6 +119,19 @@ namespace SistemaHotel.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+            }
+
+            // Aquí es donde asignas los campos Nombres y Apellidos.
+            user.Nombres = Input.Nombres;
+            user.Apellidos = Input.Apellidos;
+
+            // Actualizas los datos del usuario.
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                StatusMessage = "Unexpected error when trying to update profile.";
+                return RedirectToPage();
             }
 
             await _signInManager.RefreshSignInAsync(user);
