@@ -11,7 +11,7 @@ using SistemaHotel.Models;
 
 namespace SistemaHotel.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "EMPLEADO")]
     public class ClientesController : Controller
     {
         private readonly Database _context;
