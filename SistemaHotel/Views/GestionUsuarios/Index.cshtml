@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+@{
+    List<Usuario> usuarios = ViewBag.Empleados;
+    foreach (var usuario in usuarios)
+    {
+        <div class="row">
+            <div>@usuario.Email</div>
+            <div>@usuario.Nombres</div>
+            <div>@usuario.Apellidos</div>
+            <a asp-action="Edit" asp-route-id="@usuario.Id">Editar</a>
+        </div>
+    }
+}
