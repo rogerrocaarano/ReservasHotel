@@ -108,11 +108,19 @@ namespace SistemaHotel.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null, string rol = null)
         {
+            // Validar si el usuario tiene permisos para registrar usuarios con roles específicos
+            if (rol != null && !(User.Identity.IsAuthenticated && User.IsInRole("ADMINISTRADOR")))
+            {
+                return Redirect($"/Identity/Account/AccessDenied");
+            }
+            // Guardar el rol en TempData para que esté disponible en el método OnPostAsync
+            TempData["rol"] = rol != null ? rol : "CLIENTE";
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -132,6 +140,8 @@ namespace SistemaHotel.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    var rol = TempData["rol"].ToString();
+                    await _userManager.AddToRoleAsync(user, rol);
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

@@ -99,13 +99,13 @@ public class GestionUsuariosController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [AllowAnonymous]
     public IActionResult Create()
     {
         // Desloguear al usuario actual antes de redirigir al formulario de registro
-        _signInManager.SignOutAsync();
+        // _signInManager.SignOutAsync();
 
-        // Redirigir al formulario de registro con el rol "EMPLEADO"
-        return RedirectToPage("/Areas/Identity/Pages/Account/Register", new { rol = "EMPLEADO" });
+        // Redirigir a la página de registro con el rol "EMPLEADO" como parámetro
+        return Redirect($"/Identity/Account/Register?rol=EMPLEADO");
     }
+
 }
