@@ -3,30 +3,40 @@
     Layout = "_Layout";
     List<Usuario> usuarios = ViewBag.Empleados;
 }
-<h2>Gestión de Usuarios</h2>
 
+<h2>Gestión de Usuarios</h2>
 <div class="row">
-    <div class="col">Email</div>
-    <div class="col">Nombres</div>
-    <div class="col">Apellidos</div>
-    <a class="col btn btn-primary" asp-action="Create">
-        <i class="bi bi-person-add"></i>
-        Nuevo Usuario
-    </a>
+    <div class="row w-75 fw-bold">
+        <div class="col">Email</div>
+        <div class="col">Nombres</div>
+        <div class="col">Apellidos</div>
+    </div>
+    <div class="row w-25 py-1">
+        <a class="col btn btn-sm btn-success" asp-action="Create">
+            <i class="bi bi-person-add"></i>
+            Nuevo Usuario
+        </a>
+    </div>
 </div>
 @foreach (var usuario in usuarios)
 {
-    <div class="row py-1">
-        <div class="col">@usuario.Email</div>
-        <div class="col">@usuario.Nombres</div>
-        <div class="col">@usuario.Apellidos</div>
-        <a class="col btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@usuario.Id">
-            <i class="bi bi-pencil-square"></i>
-            Modificar
-        </a>
-        <a class="col btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@usuario.Id">
-            <i class="bi bi-person-x"></i>
-            Eliminar
-        </a>
+    <div class="row">
+        <div class="row w-75">
+            <div class="col">@usuario.Email</div>
+            <div class="col">@usuario.Nombres</div>
+            <div class="col">@usuario.Apellidos</div>
+        </div>
+        <div class="row w-25 py-1">
+            <a class="col btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@usuario.Id">
+                <i class="bi bi-pencil-square"></i>
+                Modificar
+            </a>
+            <a class="col btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@usuario.Id">
+                <i class="bi bi-person-x"></i>
+                Eliminar
+            </a>
+        </div>
     </div>
 }
+
+
