@@ -1,18 +1,32 @@
 ﻿@{
     ViewBag.Title = "title";
     Layout = "_Layout";
-}
-
-<h2>title</h2>
-@{
     List<Usuario> usuarios = ViewBag.Empleados;
-    foreach (var usuario in usuarios)
-    {
-        <div class="row">
-            <div>@usuario.Email</div>
-            <div>@usuario.Nombres</div>
-            <div>@usuario.Apellidos</div>
-            <a asp-action="Edit" asp-route-id="@usuario.Id">Editar</a>
-        </div>
-    }
+}
+<h2>Gestión de Usuarios</h2>
+
+<div class="row">
+    <div class="col">Email</div>
+    <div class="col">Nombres</div>
+    <div class="col">Apellidos</div>
+    <a class="col btn btn-primary" asp-action="Create">
+        <i class="bi bi-person-add"></i>
+        Nuevo Usuario
+    </a>
+</div>
+@foreach (var usuario in usuarios)
+{
+    <div class="row py-1">
+        <div class="col">@usuario.Email</div>
+        <div class="col">@usuario.Nombres</div>
+        <div class="col">@usuario.Apellidos</div>
+        <a class="col btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@usuario.Id">
+            <i class="bi bi-pencil-square"></i>
+            Modificar
+        </a>
+        <a class="col btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@usuario.Id">
+            <i class="bi bi-person-x"></i>
+            Eliminar
+        </a>
+    </div>
 }

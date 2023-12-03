@@ -108,4 +108,14 @@ public class GestionUsuariosController : Controller
         return Redirect($"/Identity/Account/Register?rol=EMPLEADO");
     }
 
+    public async Task<IActionResult> Delete(Guid? id)
+    {
+        // Obtener el usuario con el id especificado
+        if (id == null) return NotFound();
+        var usuario = _userManager.FindByIdAsync(id.ToString()).Result;
+        if (usuario == null) return NotFound();
+        // Eliminar el usuario
+        await _userManager.DeleteAsync(usuario);
+        return RedirectToAction(nameof(Index));
+    }
 }
