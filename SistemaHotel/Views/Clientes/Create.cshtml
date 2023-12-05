@@ -1,60 +1,69 @@
 @model SistemaHotel.Models.Cliente
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nuevo Cliente";
+    ViewBag.ControllerName = "Clientes";
 }
 
-<h1>Create</h1>
+<div class="fs-3 fw-bold mb-3">Nuevo Cliente</div>
 
-<h4>Cliente</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nombres" class="control-label"></label>
-                <input asp-for="Nombres" class="form-control" />
-                <span asp-validation-for="Nombres" class="text-danger"></span>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row">
+        <div class="col-md-8 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Cliente</label>
+                <input asp-for="Nombres" class="form-control" placeholder="Nombre"/>
+                <input asp-for="Apellidos" class="form-control" placeholder="Apellido"/>
             </div>
-            <div class="form-group">
-                <label asp-for="Apellidos" class="control-label"></label>
-                <input asp-for="Apellidos" class="form-control" />
-                <span asp-validation-for="Apellidos" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Género</label>
+                <select asp-for="Genero" class="form-select">
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option selected value="IND">Indefinido</option>
+                </select>
             </div>
-            <div class="form-group">
-                <label asp-for="Genero" class="control-label"></label>
-                <input asp-for="Genero" class="form-control" />
-                <span asp-validation-for="Genero" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RazonSocial" class="control-label"></label>
-                <input asp-for="RazonSocial" class="form-control" />
-                <span asp-validation-for="RazonSocial" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NroRazonSocial" class="control-label"></label>
-                <input asp-for="NroRazonSocial" class="form-control" />
-                <span asp-validation-for="NroRazonSocial" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    <span asp-validation-for="Nombres" class="text-danger"></span>
+    <span asp-validation-for="Apellidos" class="text-danger"></span>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="row">
+        <div class="col-md-8 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Razón Social</label>
+                <input asp-for="RazonSocial" class="form-control" placeholder="Nombre a Facturar"/>
+            </div>
+        </div>
+        <div class="col-md-4 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Nro.</label>
+                <input asp-for="NroRazonSocial" class="form-control" placeholder="NIT/CI/DNI"/>
+            </div>
+        </div>
+    </div>
+    <span asp-validation-for="RazonSocial" class="text-danger"></span>
+    <span asp-validation-for="NroRazonSocial" class="text-danger"></span>
 
+    <div class="row">
+        <div class="col-md-8 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="nombre@example.com"/>
+            </div>
+        </div>
+        <div class="col-md-4 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Teléfono</label>
+                <input asp-for="Telefono" class="form-control" placeholder="+591XXXXXXXX"/>
+            </div>
+        </div>
+    </div>
+    <span asp-validation-for="Email" class="text-danger"></span>
+    <span asp-validation-for="Telefono" class="text-danger"></span>
+    @await Html.PartialAsync("_CreateButtons")
+</form>

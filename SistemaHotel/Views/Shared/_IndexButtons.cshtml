@@ -1,0 +1,6 @@
+﻿@{
+    string itemId = ViewBag.itemId;
+    string controllerName = ViewBag.controllerName;
+}
+<a asp-controller="@controllerName" asp-action="Edit" asp-route-id="@itemId" class="btn btn-primary btn-sm">Edit</a>
+<a asp-controller="@controllerName" asp-action="Delete" asp-route-id="@itemId" class="btn btn-danger btn-sm">Delete</a>
