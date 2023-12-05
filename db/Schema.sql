@@ -29,7 +29,7 @@ create table "Huesped"(
     "apellidos" varchar(128) not null,
     "docIdentidad" varchar(32) not null,
     "tipoDocIdentidad" varchar(16) not null,
-    "nacionalidad" varchar(64) not null
+    "pais" varchar(64) not null
 );
 create table "TipoHabitacion"(
     "id" serial primary key not null,
@@ -39,58 +39,42 @@ create table "TipoHabitacion"(
     "precioNoche" float not null
 );
 create table "Habitacion"(
-    "id" serial primary key not null,
+    "id" int primary key not null,
     "idTipoHabitacion" serial references "TipoHabitacion"(id) not null,
+    "piso" int not null,
+    "ubicacion" varchar(128) not null,
     "habilitado" bool default true not null,
-    "reservado" bool default false not null,
-    "nro" varchar(16) not null
-);
-create table "PaquetePromocional"(
-    "id" serial primary key not null,
-    "nombre" varchar(128) not null,
-    "descripcion" varchar(256) not null,
-    "precio" float default 0.00 not null,
-    "habilitado" bool default false,
-    "fechaDisponibleInicio" timestamp not null,
-    "fechaDisponibleFin" timestamp not null
+    "disponible" bool default true not null
 );
 create table "Reserva"(
     "id" serial primary key not null,
     "idCliente" serial references "Cliente"(id),
-    "idHabitacion" serial references "Habitacion"(id),
     "fechaReserva" timestamp default now(),
-    "inicioReserva" timestamp,
-    "finReserva" timestamp,
     "estado" varchar(32) default 'RESERVADO'
 );
-
--- Reportes Reservas
-
--- create table "ReservaCliente"(
---     "idReserva" serial references "Reserva"(id),
---     "idCliente" serial references "Cliente"(id)
--- );
--- create table "HabitacionReservada"(
---     "idHabitacion" serial references "Habitacion"(id),
---     "idReserva" serial references "Reserva"(id)
--- );
--- create table "PaquetePromocionalReserva"(
---     "idPaquetePromocional" serial references "PaquetePromocional"(id),
---     "idReserva" serial references "Reserva"(id)
--- );
-
--- Registro de ingreso y salida de huéspedes
-
-create table "CheckIn"(
-    "idHuesped" serial references "Huesped"(id) not null,
-    "idHabitacion" serial references "Habitacion"(id) not null,
-    "ingreso" timestamp default now()
+create table "RegistroReservaHabitacion"(
+    "idReserva" serial references "Reserva"(id),
+    "idHabitacion" serial references "Habitacion"(id),
+    "inicioReserva" timestamp,
+    "finReserva" timestamp
 );
-create table "CheckOut"(
-    "idHuesped" serial references "Huesped"(id) not null,
-    "idHabitacion" serial references "Habitacion"(id) not null,
-    "salida" timestamp default now()
+create table "RegistroIngresoHuesped"(
+    "idHuesped" serial references "Huesped"(id),
+    "idHabitacion" serial references "Habitacion"(id),
+    "checkIn" timestamp,
+    "checkOut" timestamp
 );
+
+-- create table "CheckIn"(
+--     "idHuesped" serial references "Huesped"(id) not null,
+--     "idHabitacion" serial references "Habitacion"(id) not null,
+--     "ingreso" timestamp default now()
+-- );
+-- create table "CheckOut"(
+--     "idHuesped" serial references "Huesped"(id) not null,
+--     "idHabitacion" serial references "Habitacion"(id) not null,
+--     "salida" timestamp default now()
+-- );
 
 -- Inventario Habitación
 
