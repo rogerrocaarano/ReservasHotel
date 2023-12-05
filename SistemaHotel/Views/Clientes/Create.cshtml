@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Nuevo Cliente";
+    ViewBag.ControllerName = "Clientes";
 }
 
 <div class="fs-3 fw-bold mb-3">Nuevo Cliente</div>
@@ -64,15 +65,5 @@
     </div>
     <span asp-validation-for="Email" class="text-danger"></span>
     <span asp-validation-for="Telefono" class="text-danger"></span>
-
-    <div class="mt-3 pt-3 border-top">
-        <a asp-action="Index" class="btn btn-secondary">
-            <i class="bi bi-arrow-left-square"></i>
-            Volver
-        </a>
-        <button type="submit" class="btn btn-primary">
-            <i class="bi bi-check-square"></i>
-            Guardar
-        </button>
-    </div>
+    @await Html.PartialAsync("_CreateButtons")
 </form>

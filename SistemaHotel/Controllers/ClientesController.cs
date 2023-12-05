@@ -44,24 +44,6 @@ namespace SistemaHotel.Controllers
             return View(await clientes.ToListAsync());
         }
 
-        // GET: Clientes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Cliente == null)
-            {
-                return NotFound();
-            }
-
-            var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-
-            return View(cliente);
-        }
-
         // GET: Clientes/Create
         public IActionResult Create()
         {
