@@ -1,46 +1,46 @@
-@model Habitacion
+﻿@model Habitacion
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewBag.Title = "Datos de la Habitación";
+    Layout = "_Layout";
+    List<TipoHabitacion> tiposHabitacion = ViewBag.TiposHabitacion;
+    ViewBag.ControllerName = "Habitaciones";
 }
 
-<h1>Edit</h1>
+<div class="fs-3 fw-bold mb-3">Datos de la Habitación</div>
 
-<h4>Habitacion</h4>
-<hr/>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id"/>
-            <div class="form-group">
-                <label asp-for="Nro" class="control-label">Nro. de Habitación</label>
-                <input asp-for="Nro" class="form-control"/>
-                <span asp-validation-for="Nro" class="text-danger"></span>
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Disponible">
+    <div class="row">
+        <div class="col-md input-group mb-3">
+            <div class="input-group-text">
+                <input id="Habilitado" asp-for="Habilitado" class="form-check-input" type="checkbox"/>
             </div>
-            <div class="form-group">
-                <label asp-for="IdTipoHabitacion" class="control-label">Tipo de habitación</label>
-                <select asp-for="IdTipoHabitacion" class="form-control" asp-items="ViewBag.IdTipoHabitacion"></select>
-                <span asp-validation-for="IdTipoHabitacion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Habilitado" class="control-label"></label>
-                <input type="checkbox" asp-for="Habilitado" class="form-check-input"/>
-                <span asp-validation-for="Habilitado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Reservado" class="control-label"></label>
-                <input type="checkbox" asp-for="Reservado" class="form-check-input"/>
-                <span asp-validation-for="Reservado" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
-            </div>
-        </form>
+            <label class="form-control">Habilitado</label>
+            <label class="input-group-text">Número</label>
+            <input asp-for="Id" class="form-control" disabled/>
+        </div>
+        <div class="col-md input-group mb-3">
+            <label class="input-group-text">Piso</label>
+            <input asp-for="Piso" class="form-control"/>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="row">
+        <div class="col-md input-group mb-3">
+            <label class="input-group-text">Tipo de habitación</label>
+            <select asp-for="IdTipoHabitacion" class="form-select">
+                @foreach (var tipoHabitacion in tiposHabitacion)
+                {
+                    <option value="@tipoHabitacion.Id">@tipoHabitacion.Nombre</option>
+                }
+            </select>
+        </div>
+        <div class="col-md input-group mb-3">
+            <label class="input-group-text">Ubicación</label>
+            <input asp-for="Ubicacion" class="form-control"/>
+        </div>
+    </div>
+    @await Html.PartialAsync("_EditButtons")
+</form>
