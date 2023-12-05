@@ -29,7 +29,7 @@ create table "Huesped"(
     "apellidos" varchar(128) not null,
     "docIdentidad" varchar(32) not null,
     "tipoDocIdentidad" varchar(16) not null,
-    "nacionalidad" varchar(16) not null
+    "nacionalidad" varchar(64) not null
 );
 create table "TipoHabitacion"(
     "id" serial primary key not null,

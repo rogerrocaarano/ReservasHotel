@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+    List<Usuario> usuarios = ViewBag.Empleados;
+}
+
+<div class="row border-bottom py-1 mt-4">
+    <div class="col-8 fw-bold py-1">
+        <div class="row">
+            <div class="col">Email</div>
+            <div class="col">Nombres</div>
+            <div class="col">Apellidos</div>
+        </div>
+    </div>
+    <div class="col-4 d-flex justify-content-end align-content-center">
+        <a class="btn btn-sm btn-success" asp-action="Create">
+            <i class="bi bi-person-add"></i>
+            Nuevo Usuario
+        </a>
+
+    </div>
+</div>
+@foreach (var usuario in usuarios)
+{
+    <div class="row border-bottom py-1">
+        <div class="col-8">
+            <div class="row py-1">
+                <div class="col">@usuario.Email</div>
+                <div class="col">@usuario.Nombres</div>
+                <div class="col">@usuario.Apellidos</div>
+            </div>
+        </div>
+        <div class="col-4 d-flex justify-content-end">
+            <a class="btn btn-sm btn-warning me-2" asp-action="Edit" asp-route-id="@usuario.Id">
+                <i class="bi bi-pencil-square"></i>
+                Modificar
+            </a>
+            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@usuario.Id">
+                <i class="bi bi-person-x"></i>
+                Eliminar
+            </a>
+        </div>
+    </div>
+}
+
+

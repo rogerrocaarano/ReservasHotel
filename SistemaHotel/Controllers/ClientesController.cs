@@ -11,7 +11,7 @@ using SistemaHotel.Models;
 
 namespace SistemaHotel.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "EMPLEADO")]
     public class ClientesController : Controller
     {
         private readonly Database _context;
@@ -42,24 +42,6 @@ namespace SistemaHotel.Controllers
             // Ordenar los resultados alfabéticamente por el campo Nombres
             clientes = clientes.OrderBy(c => c.Nombres);
             return View(await clientes.ToListAsync());
-        }
-
-        // GET: Clientes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Cliente == null)
-            {
-                return NotFound();
-            }
-
-            var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-
-            return View(cliente);
         }
 
         // GET: Clientes/Create

@@ -11,7 +11,7 @@ using SistemaHotel.Models;
 
 namespace SistemaHotel.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "ADMINISTRADOR")]
     public class TiposHabitacionController : Controller
     {
         private readonly Database _context;

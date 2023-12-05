@@ -7,7 +7,7 @@ using SistemaHotel.Models;
 
 namespace SistemaHotel.Controllers;
 
-[Authorize]
+[Authorize (Roles = "ADMINISTRADOR")]
 public class HabitacionesController : Controller
 {
     private readonly Database _context;

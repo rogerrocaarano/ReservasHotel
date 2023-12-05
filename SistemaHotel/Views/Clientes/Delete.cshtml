@@ -1,63 +1,65 @@
 @model SistemaHotel.Models.Cliente
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar";
+    ViewBag.id = Model.Id.ToString();
+    ViewBag.ControllerName = "Clientes";
 }
 
-<h1>Delete</h1>
+<div class="fs-3 fw-bold mb-3">Eliminar Cliente</div>
+<div class="fs-5 fw-bold mb-3 text-danger">¿Está seguro de que desea eliminar de forma permanente lo siguiente?</div>
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="input-group">
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Cliente</label>
+                <input asp-for="Nombres" class="form-control" disabled/>
+                <input asp-for="Apellidos" class="form-control" disabled/>
+                <label class="input-group-text">ID</label>
+                <input class="form-control" asp-for="Id" disabled/>
+            </div>
+        </div>
+        <div class="col-md-5 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Género</label>
+                <input asp-for="Genero" class="form-control" disabled>
+            </div>
+        </div>
+    </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Cliente</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombres)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombres)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Apellidos)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Apellidos)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Genero)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Genero)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RazonSocial)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RazonSocial)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NroRazonSocial)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NroRazonSocial)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefono)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telefono)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+    <div class="row">
+        <div class="col-md-7 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Razón Social</label>
+                <input asp-for="RazonSocial" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-5 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Nro.</label>
+                <input asp-for="NroRazonSocial" class="form-control" disabled/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Email</label>
+                <input asp-for="Email" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-5 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Teléfono</label>
+                <input asp-for="Telefono" class="form-control" disabled/>
+            </div>
+        </div>
+    </div>
+</form>
+@await Html.PartialAsync("_DeleteButtons")

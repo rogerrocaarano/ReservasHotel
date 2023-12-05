@@ -1,5 +1,4 @@
 using System.Text.Json.Nodes;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -12,13 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 /*
  * VARIABLES DE ENTORNO
  * Deben estar definidas en el sistema operativo las siguientes variables de entorno:
- * - ReservasHotelDb: Cadena de conexión a la base de datos de reservas
- * - ReservasHotelIdentityDb: Cadena de conexión a la base de datos de identidad
+ * - ReservasHotelDb: Cadena de conexión a la base de datos del sistema
  * - ReservasHotelEmailAccount: Cuenta de correo electrónico para el envío de mensajes
+ * - ReservasHotelAdminEmail: Cuenta de correo del usuario ADministrador
  */
 var connectionDb = Environment.GetEnvironmentVariable("ReservasHotelDb");
-var connectionIdentityDb = Environment.GetEnvironmentVariable("ReservasHotelIdentityDb");
 var systemEmailAccount = Environment.GetEnvironmentVariable("ReservasHotelEmailAccount");
+var adminEmail = Environment.GetEnvironmentVariable("ReservasHotelAdminEmail");
 
 //Servicios de la aplicación
 var services = builder.Services;
@@ -32,7 +31,7 @@ var services = builder.Services;
  */
 
 services.AddDbContext<Database>(options => options.UseNpgsql(connectionDb));
-services.AddDbContext<IdentityDatabase>(options => options.UseNpgsql(connectionIdentityDb));
+services.AddDbContext<IdentityDatabase>(options => options.UseNpgsql(connectionDb));
 
 services.AddIdentity<Usuario, Rol>(options =>
     {
@@ -87,6 +86,19 @@ foreach (var roleName in roleNames)
     {
         await roleManager.CreateAsync(new Rol { Name = roleName });
     }
+}
+
+// Asignar roles al usuario administrador
+var userManager = serviceProvider.GetRequiredService<UserManager<Usuario>>();
+if (adminEmail != null)
+{
+    var user = await userManager.FindByEmailAsync(adminEmail);
+    var adminRoles = new List<string>
+    {
+        "ADMINISTRADOR",
+        "EMPLEADO"
+    };
+    if (user != null) await userManager.AddToRolesAsync(user, adminRoles);
 }
 
 // Configure the HTTP request pipeline.
