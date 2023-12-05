@@ -55,7 +55,7 @@ namespace SistemaHotel.Controllers
         // GET: Huespedes/Create
         public IActionResult Create()
         {
-            var jsonFilePath = Path.Combine(_hostingEnvironment.WebRootPath, "json", "nacionalidades.json");
+            var jsonFilePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Data", "nacionalidades.json");
             var jsonData = System.IO.File.ReadAllText(jsonFilePath);
             var data = JsonConvert.DeserializeObject<PaisesData>(jsonData);
             // Convertir la lista de paises a un diccionario
