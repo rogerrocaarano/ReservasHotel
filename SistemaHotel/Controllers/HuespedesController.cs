@@ -25,6 +25,8 @@ namespace SistemaHotel.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
+
+
         // GET: /Huespedes
         /// <summary>
         /// Muestra la lista de huéspedes registrados en el sistema
@@ -36,11 +38,13 @@ namespace SistemaHotel.Controllers
             return View(huespedes);
         }
 
-        // GET: /Huespedes/Edit/5
+
+
+        // GET: /Huespedes/Edit/Id
         /// <summary>
         /// Muestra el formulario de edición de un huésped específico
         /// </summary>
-        /// <param name="id">Id del huesped.</param>
+        /// <param name="id">Id del huesped</param>
         /// <returns>Vista Edit.cshtml</returns>
         public async Task<IActionResult> Edit(int? id)
         {
@@ -50,7 +54,9 @@ namespace SistemaHotel.Controllers
             return View(huesped);
         }
 
-        // POST: /Huespedes/Edit/5
+
+
+        // POST: /Huespedes/Edit/Id
         /// <summary>
         /// Envía el formulario de edición de un huésped específico
         /// </summary>
@@ -89,14 +95,27 @@ namespace SistemaHotel.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
         // GET: /Huespedes/Create
+        /// <summary>
+        /// Muestra el formulario para crear un nuevo huésped
+        /// </summary>
+        /// <returns>Vista Create.cshtml</returns>
         public async Task<IActionResult> Create()
         {
             ViewBag.Paises = GetPaises();
             return View();
         }
 
+
+
         // POST: /Huespedes/Create
+        /// <summary>
+        /// Envía el formulario para crear un nuevo huésped
+        /// </summary>
+        /// <param name="huesped">Nuevo huésped</param>
+        /// <returns>Vista Index.cshtml, Create.cshtml en caso de error.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
@@ -114,8 +133,6 @@ namespace SistemaHotel.Controllers
                 ViewBag.Paises = GetPaises();
                 return View(huesped);
             }
-
-            // Agregar el huésped a la base de datos
             try
             {
                 _context.Add(huesped);
@@ -129,21 +146,41 @@ namespace SistemaHotel.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: /Huespedes/Delete/5
+
+
+        // GET: /Huespedes/Delete/Id
+        /// <summary>
+        /// Muestra el formulario de confirmación de eliminación de un huésped específico.
+        /// </summary>
+        /// <param name="id">Id del huesped</param>
+        /// <returns>Vista Index.cshtml</returns>
         public async Task<IActionResult> Delete(int? id)
         {
-            // Implementa la lógica para obtener y mostrar el formulario de confirmación de eliminación para un huésped específico
+            //TODO: Implementa la lógica para obtener y mostrar el formulario de confirmación de eliminación para un huésped específico
             return View();
         }
 
+
+
         // POST: /Huespedes/Delete/5
+        /// <summary>
+        /// Elimina un huésped específico de la base de datos
+        /// </summary>
+        /// <param name="id">Huesped a eliminar</param>
+        /// <returns>Vista Index.cshtml</returns>
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            // Implementa la lógica para eliminar un huésped específico de la base de datos
+            //TODO: Implementa la lógica para eliminar un huésped específico de la base de datos
             return RedirectToAction(nameof(Index));
         }
 
+
+
+        /// <summary>
+        /// Obtiene la lista de países desde el archivo nacionalidades.json
+        /// </summary>
+        /// <returns>Lista de países</returns>
         private List<string> GetPaises()
         {
             var jsonFilePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Data", "nacionalidades.json");
@@ -155,6 +192,13 @@ namespace SistemaHotel.Controllers
             return dictPaises.Keys.ToList();
         }
 
+
+
+        /// <summary>
+        /// Normaliza los datos de un huésped
+        /// </summary>
+        /// <param name="huesped">Objeto Huésped a normalizar</param>
+        /// <returns>huesped normalizado</returns>
         private Huesped NormalizeHuesped(Huesped huesped)
         {
             huesped.Nombres = UtilityFunctions.NormalizeString(huesped.Nombres);
@@ -162,6 +206,5 @@ namespace SistemaHotel.Controllers
             huesped.DocIdentidad = UtilityFunctions.RemoveAllWhiteSpace(huesped.DocIdentidad);
             return huesped;
         }
-
     }
 }
