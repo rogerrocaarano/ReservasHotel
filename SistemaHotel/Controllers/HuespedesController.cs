@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SistemaHotel.Data;
@@ -156,8 +150,10 @@ namespace SistemaHotel.Controllers
         /// <returns>Vista Index.cshtml</returns>
         public async Task<IActionResult> Delete(int? id)
         {
-            //TODO: Implementa la lógica para obtener y mostrar el formulario de confirmación de eliminación para un huésped específico
-            return View();
+            if (id == null) return NotFound();
+            var huesped = await _context.Huesped.FirstOrDefaultAsync(m => m.Id == id);
+            if (huesped == null) return NotFound();
+            return View(huesped);
         }
 
 
@@ -168,10 +164,22 @@ namespace SistemaHotel.Controllers
         /// </summary>
         /// <param name="id">Huesped a eliminar</param>
         /// <returns>Vista Index.cshtml</returns>
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            //TODO: Implementa la lógica para eliminar un huésped específico de la base de datos
+            var huesped = await _context.Huesped.FindAsync(id);
+            if (huesped == null) return NotFound();
+            try
+            {
+                _context.Huesped.Remove(huesped);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return View(huesped);
+            }
             return RedirectToAction(nameof(Index));
         }
 
