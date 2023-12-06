@@ -1,60 +1,64 @@
-@model SistemaHotel.Models.Huesped
+@model Huesped
 
 @{
-    ViewData["Title"] = "Create";
+    ViewBag.Title = "Huéspedes";
+    Layout = "_Layout";
+    ViewBag.ControllerName = "HuespedesController";
+    List<string> paises = ViewBag.Paises;
 }
 
-<h1>Create</h1>
+<div class="fs-3 fw-bold mb-3">Nuevo Huésped</div>
 
-<h4>Huesped</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nombres" class="control-label"></label>
-                <input asp-for="Nombres" class="form-control" />
-                <span asp-validation-for="Nombres" class="text-danger"></span>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row">
+        <div class="col-md-8 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Huésped</label>
+                <input asp-for="Nombres" class="form-control" placeholder="Nombre"/>
+                <input asp-for="Apellidos" class="form-control" placeholder="Apellido"/>
             </div>
-            <div class="form-group">
-                <label asp-for="Apellidos" class="control-label"></label>
-                <input asp-for="Apellidos" class="form-control" />
-                <span asp-validation-for="Apellidos" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DocIdentidad" class="control-label"></label>
-                <input asp-for="DocIdentidad" class="form-control" />
-                <span asp-validation-for="DocIdentidad" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TipoDocIdentidad" class="control-label"></label>
-                <span asp-validation-for="TipoDocIdentidad" class="text-danger"></span>
-                <select class="form-select" asp-for="TipoDocIdentidad">
-                    <option value="DNI">DNI</option>
-                    <option value="Pasaporte">Pasaporte</option>
+        </div>
+        <div class="col-md-4 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Género</label>
+                <select class="form-select">
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option selected value="IND">Indefinido</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label asp-for="Nacionalidad" class="control-label"></label>
-                <input class="form-control" value="" oninput="seleccionarOpcionesPorTexto(value,'dropdownNacionalidad')"/>
-                <select class="form-select" asp-for="Nacionalidad" id="dropdownNacionalidad">
-                    @foreach (var nacionalidad in @ViewBag.Nacionalidades)
+        </div>
+    </div>
+    <span asp-validation-for="Nombres" class="text-danger"></span>
+    <span asp-validation-for="Apellidos" class="text-danger"></span>
+
+    <div class="row">
+        <div class="col-md-8 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Doc. Identidad</label>
+                <input asp-for="DocIdentidad" class="form-control" placeholder="Nro. de documento de identidad"/>
+                <label class="input-group-text">Tipo Documento</label>
+                <select asp-for="TipoDocIdentidad" class="form-select">
+                    <option value="CI" selected>Carnet de Identidad</option>
+                    <option value="DNI">Documento Nacional de Identidad</option>
+                    <option value="PAS">Pasaporte</option>
+                    <option value="OTRO">Otro</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4 g-3">
+            <div class="input-group">
+                <label class="input-group-text">País</label>
+                <select asp-for="Pais" class="form-select">
+                    @foreach (var pais in paises)
                     {
-                        <option value="@nacionalidad">@nacionalidad</option>
+                        <option value="@pais">@pais</option>
                     }
                 </select>
-                </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-<script src="~/js/select-liveSearch.js"></script>
-
+    @await Html.PartialAsync("_CreateButtons")
+</form>
