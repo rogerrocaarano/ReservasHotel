@@ -3,10 +3,43 @@
 @{
     ViewBag.Title = "Huéspedes";
     Layout = "_Layout";
-    ViewBag.ControllerName = "HuespedesController";
+    ViewBag.ControllerName = "Huespedes";
 }
 
-<a asp-action="Create" class="btn btn-success">
-    <i class="bi bi-person-add"></i>
-    Registrar huésped
-</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Huésped</th>
+        <th>Doc. Identidad</th>
+        <th>
+            <a asp-action="Create" class="btn btn-sm btn-success">
+                <i class="bi bi-person-add"></i>
+                Registrar huésped
+            </a>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach(var huesped in Model)
+    {
+        <tr>
+            <td>@huesped.Id</td>
+            <td>@huesped.Nombres @huesped.Apellidos</td>
+            <td>@huesped.TipoDocIdentidad-@huesped.DocIdentidad</td>
+            <td>
+                <div class="btn-group" role="group">
+                    <a asp-action="Edit" asp-route-id="@huesped.Id" class="btn btn-sm btn-primary">
+                        <i class="bi bi-pencil-square"></i>
+                        Editar
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@huesped.Id" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i>
+                        Eliminar
+                    </a>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
