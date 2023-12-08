@@ -150,6 +150,7 @@ public class HuespedesController : Controller
     /// </summary>
     /// <param name="id">Id del huesped</param>
     /// <returns>Vista Index.cshtml</returns>
+    [Authorize (Roles = "ADMINISTRADOR")]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null) return NotFound();
@@ -166,6 +167,7 @@ public class HuespedesController : Controller
     /// </summary>
     /// <param name="id">Huesped a eliminar</param>
     /// <returns>Vista Index.cshtml</returns>
+    [Authorize (Roles = "ADMINISTRADOR")]
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)

@@ -65,17 +65,6 @@ create table "RegistroIngresoHuesped"(
     "checkOut" timestamp
 );
 
--- create table "CheckIn"(
---     "idHuesped" serial references "Huesped"(id) not null,
---     "idHabitacion" serial references "Habitacion"(id) not null,
---     "ingreso" timestamp default now()
--- );
--- create table "CheckOut"(
---     "idHuesped" serial references "Huesped"(id) not null,
---     "idHabitacion" serial references "Habitacion"(id) not null,
---     "salida" timestamp default now()
--- );
-
 -- Inventario Habitación
 
 create table "ItemHabitacion"(
