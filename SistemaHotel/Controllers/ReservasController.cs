@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SistemaHotel.Data;
 using SistemaHotel.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace SistemaHotel.Controllers;
 
@@ -17,8 +15,9 @@ public class ReservasController : Controller
     // GET
     public IActionResult Index()
     {
-        return NotFound();
-        // return View();
+        ViewBag.controller = "Reservas";
+        var clientes = new List<Cliente>();
+        return View(clientes);
     }
 
     public async Task<IActionResult> Create(int? idCliente)
@@ -26,9 +25,9 @@ public class ReservasController : Controller
         if (idCliente == null) return NotFound();
         var cliente = await _context.Cliente.FindAsync(idCliente);
         if (cliente == null) return NotFound();
-        return NotFound();
+        // return NotFound();
 
-        // return View();
+        return View();
     }
 
     public void AdicionarHabitacion(

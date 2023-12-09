@@ -26,7 +26,9 @@ public class ClientesController : Controller
     /// </returns>
     public async Task<IActionResult> Index()
     {
-        return View(await FiltrarClientes(""));
+        ViewBag.controller = "CLiente";
+        var clientes = new List<Cliente>();
+        return View(clientes);
     }
 
 
