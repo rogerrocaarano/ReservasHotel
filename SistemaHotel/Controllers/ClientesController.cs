@@ -47,10 +47,10 @@ public class ClientesController : Controller
     /// <returns>
     /// Vista parcial con la lista de clientes
     /// </returns>
-    public IActionResult BuscarClientes(string? busqueda, string controllerName = "Clientes")
+    public IActionResult BuscarClientes(string? busqueda)
     {
         var clientes = _clienteService.BuscarClientes(busqueda);
-        ViewBag.controllerName = controllerName;
+        ViewBag.controllerName = "Clientes";
         return PartialView("Clientes/_ListaClientes", clientes);
     }
 

@@ -1,16 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SistemaHotel.Data;
 using SistemaHotel.Models;
+using SistemaHotel.Services;
 
 namespace SistemaHotel.Controllers;
 
 public class ReservasController : Controller
 {
     private readonly Database _context;
+    private readonly IClienteService _clienteService;
 
-    public ReservasController(Database context)
+    public ReservasController(
+        Database context,
+        IClienteService clienteService)
     {
         _context = context;
+        _clienteService = clienteService;
     }
     // GET
     public IActionResult Index()
@@ -18,6 +23,13 @@ public class ReservasController : Controller
         ViewBag.controllerName = "Reservas";
         var clientes = new List<Cliente>();
         return View(clientes);
+    }
+    
+    public IActionResult BuscarClientes(string? busqueda)
+    {
+        var clientes = _clienteService.BuscarClientes(busqueda);
+        ViewBag.controllerName = "Reservas";
+        return PartialView("Clientes/_ListaClientes", clientes);
     }
 
     public async Task<IActionResult> Create(int? idCliente)
