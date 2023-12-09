@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SistemaHotel.Models;
 
-public partial class RegistroReservaHabitacion
+public partial class ReservaHabitacion
 {
     public int IdReserva { get; set; }
 

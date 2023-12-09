@@ -38,9 +38,9 @@ public partial class Database : DbContext
 
     public virtual DbSet<PagoStripe> PagoStripe { get; set; }
 
-    public virtual DbSet<RegistroIngresoHuesped> RegistroIngresoHuesped { get; set; }
+    public virtual DbSet<IngresoHuesped> IngresoHuesped { get; set; }
 
-    public virtual DbSet<RegistroReservaHabitacion> RegistroReservaHabitacion { get; set; }
+    public virtual DbSet<ReservaHabitacion> ReservaHabitacion { get; set; }
 
     public virtual DbSet<Reserva> Reserva { get; set; }
 
@@ -282,7 +282,7 @@ public partial class Database : DbContext
                 .HasConstraintName("PagoStripe_idPago_fkey");
         });
 
-        modelBuilder.Entity<RegistroIngresoHuesped>(entity =>
+        modelBuilder.Entity<IngresoHuesped>(entity =>
         {
             entity.HasNoKey();
 
@@ -310,7 +310,7 @@ public partial class Database : DbContext
                 .HasConstraintName("RegistroIngresoHuesped_idHuesped_fkey");
         });
 
-        modelBuilder.Entity<RegistroReservaHabitacion>(entity =>
+        modelBuilder.Entity<ReservaHabitacion>(entity =>
         {
             entity.HasNoKey();
 

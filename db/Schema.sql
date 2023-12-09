@@ -52,13 +52,13 @@ create table "Reserva"(
     "fechaReserva" timestamp default now(),
     "estado" varchar(32) default 'RESERVADO'
 );
-create table "RegistroReservaHabitacion"(
+create table "ReservaHabitacion"(
     "idReserva" serial references "Reserva"(id),
     "idHabitacion" serial references "Habitacion"(id),
     "inicioReserva" timestamp,
     "finReserva" timestamp
 );
-create table "RegistroIngresoHuesped"(
+create table "IngresoHuesped"(
     "idHuesped" serial references "Huesped"(id),
     "idHabitacion" serial references "Habitacion"(id),
     "checkIn" timestamp,

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Cliente>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Razón Social</th>
+        <th>Nro. Razón Social</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        ViewBag.itemId = @item.Id.ToString();
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombres)
+                @Html.DisplayFor(modelItem => item.Apellidos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RazonSocial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NroRazonSocial)
+            </td>
+            <td>
+                @await Html.PartialAsync("CRUD/_IndexButtons")
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
