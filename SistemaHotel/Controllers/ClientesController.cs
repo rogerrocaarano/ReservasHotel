@@ -47,6 +47,7 @@ public class ClientesController : Controller
         var clientes = from c in _context.Cliente select c;
         if (!string.IsNullOrEmpty(busqueda))
         {
+            ViewBag.controllerName = "Clientes";
             clientes = clientes.Where(c =>
                 EF.Functions.ILike(c.Id.ToString(), $"%{busqueda}%") ||
                 EF.Functions.ILike(c.Nombres, $"%{busqueda}%") ||
