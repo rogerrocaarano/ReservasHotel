@@ -1,0 +1,55 @@
+﻿@model Cliente
+
+<form>
+    <div class="row">
+        <div class="input-group">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Cliente</label>
+                <input asp-controller="Clientes" asp-for="Nombres" class="form-control" disabled/>
+                <input asp-controller="Clientes" asp-for="Apellidos" class="form-control" disabled/>
+                <label class="input-group-text">ID</label>
+                <input class="form-control" asp-controller="Clientes" asp-for="Id" disabled/>
+            </div>
+        </div>
+        <div class="col-md-5 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Género</label>
+                <input asp-controller="Clientes" asp-for="Genero" class="form-control" disabled>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Razón Social</label>
+                <input asp-controller="Clientes" asp-for="RazonSocial" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-5 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Nro.</label>
+                <input asp-controller="Clientes" asp-for="NroRazonSocial" class="form-control" disabled/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Email</label>
+                <input asp-controller="Clientes" asp-for="Email" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-5 g-3">
+            <div class="input-group">
+                <label class="input-group-text">Teléfono</label>
+                <input asp-controller="Clientes" asp-for="Telefono" class="form-control" disabled/>
+            </div>
+        </div>
+    </div>
+</form>

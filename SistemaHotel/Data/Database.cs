@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using SistemaHotel.Models;
 
 namespace SistemaHotel.Data;
@@ -13,10 +15,6 @@ public partial class Database : DbContext
         : base(options)
     {
     }
-
-    public virtual DbSet<CheckIn> CheckIn { get; set; }
-
-    public virtual DbSet<CheckOut> CheckOut { get; set; }
 
     public virtual DbSet<Cliente> Cliente { get; set; }
 
@@ -40,69 +38,16 @@ public partial class Database : DbContext
 
     public virtual DbSet<PagoStripe> PagoStripe { get; set; }
 
-    public virtual DbSet<PaquetePromocional> PaquetePromocional { get; set; }
+    public virtual DbSet<IngresoHuesped> IngresoHuesped { get; set; }
+
+    public virtual DbSet<ReservaHabitacion> ReservaHabitacion { get; set; }
 
     public virtual DbSet<Reserva> Reserva { get; set; }
 
     public virtual DbSet<TipoHabitacion> TipoHabitacion { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-        optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("ReservasHotelDb"));
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CheckIn>(entity =>
-        {
-            entity.HasNoKey();
-
-            entity.Property(e => e.IdHabitacion)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("idHabitacion");
-            entity.Property(e => e.IdHuesped)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("idHuesped");
-            entity.Property(e => e.Ingreso)
-                .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("ingreso");
-
-            entity.HasOne(d => d.IdHabitacionNavigation).WithMany()
-                .HasForeignKey(d => d.IdHabitacion)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("CheckIn_idHabitacion_fkey");
-
-            entity.HasOne(d => d.IdHuespedNavigation).WithMany()
-                .HasForeignKey(d => d.IdHuesped)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("CheckIn_idHuesped_fkey");
-        });
-
-        modelBuilder.Entity<CheckOut>(entity =>
-        {
-            entity.HasNoKey();
-
-            entity.Property(e => e.IdHabitacion)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("idHabitacion");
-            entity.Property(e => e.IdHuesped)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("idHuesped");
-            entity.Property(e => e.Salida)
-                .HasDefaultValueSql("now()")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("salida");
-
-            entity.HasOne(d => d.IdHabitacionNavigation).WithMany()
-                .HasForeignKey(d => d.IdHabitacion)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("CheckOut_idHabitacion_fkey");
-
-            entity.HasOne(d => d.IdHuespedNavigation).WithMany()
-                .HasForeignKey(d => d.IdHuesped)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("CheckOut_idHuesped_fkey");
-        });
-
         modelBuilder.Entity<Cliente>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("Cliente_pkey");
@@ -157,19 +102,24 @@ public partial class Database : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Habitacion_pkey");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Disponible)
+                .IsRequired()
+                .HasDefaultValueSql("true")
+                .HasColumnName("disponible");
             entity.Property(e => e.Habilitado)
+                .IsRequired()
                 .HasDefaultValueSql("true")
                 .HasColumnName("habilitado");
             entity.Property(e => e.IdTipoHabitacion)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("idTipoHabitacion");
-            entity.Property(e => e.Nro)
-                .HasMaxLength(16)
-                .HasColumnName("nro");
-            entity.Property(e => e.Reservado)
-                .HasDefaultValueSql("false")
-                .HasColumnName("reservado");
+            entity.Property(e => e.Piso).HasColumnName("piso");
+            entity.Property(e => e.Ubicacion)
+                .HasMaxLength(128)
+                .HasColumnName("ubicacion");
 
             entity.HasOne(d => d.IdTipoHabitacionNavigation).WithMany(p => p.Habitacion)
                 .HasForeignKey(d => d.IdTipoHabitacion)
@@ -188,12 +138,12 @@ public partial class Database : DbContext
             entity.Property(e => e.DocIdentidad)
                 .HasMaxLength(32)
                 .HasColumnName("docIdentidad");
-            entity.Property(e => e.Nacionalidad)
-                .HasMaxLength(16)
-                .HasColumnName("nacionalidad");
             entity.Property(e => e.Nombres)
                 .HasMaxLength(128)
                 .HasColumnName("nombres");
+            entity.Property(e => e.Pais)
+                .HasMaxLength(64)
+                .HasColumnName("pais");
             entity.Property(e => e.TipoDocIdentidad)
                 .HasMaxLength(16)
                 .HasColumnName("tipoDocIdentidad");
@@ -332,29 +282,60 @@ public partial class Database : DbContext
                 .HasConstraintName("PagoStripe_idPago_fkey");
         });
 
-        modelBuilder.Entity<PaquetePromocional>(entity =>
+        modelBuilder.Entity<IngresoHuesped>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PaquetePromocional_pkey");
+            entity.HasNoKey();
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Descripcion)
-                .HasMaxLength(256)
-                .HasColumnName("descripcion");
-            entity.Property(e => e.FechaDisponibleFin)
+            entity.Property(e => e.CheckIn)
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("fechaDisponibleFin");
-            entity.Property(e => e.FechaDisponibleInicio)
+                .HasColumnName("checkIn");
+            entity.Property(e => e.CheckOut)
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("fechaDisponibleInicio");
-            entity.Property(e => e.Habilitado)
-                .HasDefaultValueSql("false")
-                .HasColumnName("habilitado");
-            entity.Property(e => e.Nombre)
-                .HasMaxLength(128)
-                .HasColumnName("nombre");
-            entity.Property(e => e.Precio)
-                .HasDefaultValueSql("0.00")
-                .HasColumnName("precio");
+                .HasColumnName("checkOut");
+            entity.Property(e => e.IdHabitacion)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("idHabitacion");
+            entity.Property(e => e.IdHuesped)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("idHuesped");
+
+            entity.HasOne(d => d.IdHabitacionNavigation).WithMany()
+                .HasForeignKey(d => d.IdHabitacion)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("RegistroIngresoHuesped_idHabitacion_fkey");
+
+            entity.HasOne(d => d.IdHuespedNavigation).WithMany()
+                .HasForeignKey(d => d.IdHuesped)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("RegistroIngresoHuesped_idHuesped_fkey");
+        });
+
+        modelBuilder.Entity<ReservaHabitacion>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.FinReserva)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("finReserva");
+            entity.Property(e => e.IdHabitacion)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("idHabitacion");
+            entity.Property(e => e.IdReserva)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("idReserva");
+            entity.Property(e => e.InicioReserva)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("inicioReserva");
+
+            entity.HasOne(d => d.IdHabitacionNavigation).WithMany()
+                .HasForeignKey(d => d.IdHabitacion)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("RegistroReservaHabitacion_idHabitacion_fkey");
+
+            entity.HasOne(d => d.IdReservaNavigation).WithMany()
+                .HasForeignKey(d => d.IdReserva)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("RegistroReservaHabitacion_idReserva_fkey");
         });
 
         modelBuilder.Entity<Reserva>(entity =>
@@ -370,28 +351,14 @@ public partial class Database : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("fechaReserva");
-            entity.Property(e => e.FinReserva)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("finReserva");
             entity.Property(e => e.IdCliente)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("idCliente");
-            entity.Property(e => e.IdHabitacion)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("idHabitacion");
-            entity.Property(e => e.InicioReserva)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("inicioReserva");
 
             entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Reserva)
                 .HasForeignKey(d => d.IdCliente)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Reserva_idCliente_fkey");
-
-            entity.HasOne(d => d.IdHabitacionNavigation).WithMany(p => p.Reserva)
-                .HasForeignKey(d => d.IdHabitacion)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Reserva_idHabitacion_fkey");
         });
 
         modelBuilder.Entity<TipoHabitacion>(entity =>
@@ -400,7 +367,7 @@ public partial class Database : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(256)
+                .HasMaxLength(2048)
                 .HasColumnName("descripcion");
             entity.Property(e => e.HuespedesPermitidos).HasColumnName("huespedesPermitidos");
             entity.Property(e => e.Nombre)

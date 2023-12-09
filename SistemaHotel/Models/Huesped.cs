@@ -15,5 +15,5 @@ public partial class Huesped
 
     public string TipoDocIdentidad { get; set; } = null!;
 
-    public string Nacionalidad { get; set; } = null!;
+    public string Pais { get; set; } = null!;
 }

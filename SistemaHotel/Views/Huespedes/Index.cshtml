@@ -1,59 +1,45 @@
-@model IEnumerable<SistemaHotel.Models.Huesped>
+@model List<Huesped>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewBag.Title = "Huéspedes";
+    Layout = "_Layout";
+    ViewBag.ControllerName = "Huespedes";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombres)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellidos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DocIdentidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoDocIdentidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nacionalidad)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>Id</th>
+        <th>Huésped</th>
+        <th>Doc. Identidad</th>
+        <th>
+            <a asp-action="Create" class="btn btn-sm btn-success">
+                <i class="bi bi-person-add"></i>
+                Registrar huésped
+            </a>
+        </th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach(var huesped in Model)
+    {
         <tr>
+            <td>@huesped.Id</td>
+            <td>@huesped.Nombres @huesped.Apellidos</td>
+            <td>@huesped.TipoDocIdentidad-@huesped.DocIdentidad</td>
             <td>
-                @Html.DisplayFor(modelItem => item.Nombres)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellidos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DocIdentidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoDocIdentidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nacionalidad)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <div class="btn-group" role="group">
+                    <a asp-action="Edit" asp-route-id="@huesped.Id" class="btn btn-sm btn-primary">
+                        <i class="bi bi-pencil-square"></i>
+                        Editar
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@huesped.Id" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i>
+                        Eliminar
+                    </a>
+                </div>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

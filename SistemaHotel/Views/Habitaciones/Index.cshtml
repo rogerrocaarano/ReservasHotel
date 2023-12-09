@@ -1,39 +1,26 @@
-@model IEnumerable<SistemaHotel.Models.Habitacion>
+﻿@model List<Habitacion>
 
 @{
-    ViewData["Title"] = "Habitaciones";
+    ViewBag.Title = "Habitaciones";
+    Layout = "_Layout";
 }
 
-<h1>Habitaciones</h1>
+<a asp-action="Create" class="btn btn-success">
+    <i class="bi bi-house-add"></i>
+    Nueva Habitación
+</a>
+<div class="fs-3 fw-bold mb-3">Listado de Habitaciones</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nro)
-            </th>
-            <th>Tipo de habitación</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdTipoHabitacionNavigation.Nombre)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@foreach(var habitacion in Model)
+{
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Habitación @habitacion.Id</h5>
+            <p class="card-text">Piso: @habitacion.Piso</p>
+            <p class="card-text">Ubicación: @habitacion.Ubicacion</p>
+            <p class="card-text">Tipo de habitación: @habitacion.IdTipoHabitacion</p>
+            <a href="@Url.Action("Edit", "Habitaciones", new { id = habitacion.Id })" class="btn btn-primary">Editar</a>
+            <a href="@Url.Action("Delete", "Habitaciones", new { id = habitacion.Id })" class="btn btn-danger">Eliminar</a>
+        </div>
+    </div>
 }
-    </tbody>
-</table>

@@ -9,19 +9,11 @@ public partial class Reserva
 
     public int IdCliente { get; set; }
 
-    public int IdHabitacion { get; set; }
-
     public DateTime? FechaReserva { get; set; }
-
-    public DateTime? InicioReserva { get; set; }
-
-    public DateTime? FinReserva { get; set; }
 
     public string? Estado { get; set; }
 
     public virtual ICollection<Cobro> Cobro { get; set; } = new List<Cobro>();
 
     public virtual Cliente IdClienteNavigation { get; set; } = null!;
-
-    public virtual Habitacion IdHabitacionNavigation { get; set; } = null!;
 }

@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Datos del Cliente";
     ViewBag.ControllerName = "Clientes";
-    ViewBag.ControllerName = "Clientes";
 }
 
 <div class="fs-3 fw-bold mb-3">Datos del Cliente</div>
@@ -89,5 +88,5 @@
     </div>
     <span asp-validation-for="Email" class="text-danger"></span>
     <span asp-validation-for="Telefono" class="text-danger"></span>
-    @await Html.PartialAsync("_EditButtons", Model)
+    @await Html.PartialAsync("CRUD/_EditButtons", Model)
 </form>

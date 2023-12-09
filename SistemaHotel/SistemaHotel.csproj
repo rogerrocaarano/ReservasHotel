@@ -73,6 +73,16 @@
       <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Habitaciones\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Habitaciones\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Habitaciones\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Habitaciones\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Habitaciones\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Huespedes\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Huespedes\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Huespedes\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Huespedes\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Huespedes\Index.cshtml" />
     </ItemGroup>
 
 </Project>

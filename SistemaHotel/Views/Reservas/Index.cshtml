@@ -1,0 +1,11 @@
+﻿@model List<Cliente>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+@await Html.PartialAsync("Clientes/_BuscadorClientes")
+<div id="listaClientesContainer">
+    @await Html.PartialAsync("Clientes/_ListaClientes")
+</div>
