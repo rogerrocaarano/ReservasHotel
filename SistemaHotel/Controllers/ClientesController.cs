@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaHotel.Data;
 using SistemaHotel.Models;
+using SistemaHotel.Services;
 
 namespace SistemaHotel.Controllers;
 
@@ -10,10 +11,14 @@ namespace SistemaHotel.Controllers;
 public class ClientesController : Controller
 {
     private readonly Database _context;
+    private readonly IClienteService _clienteService;
 
-    public ClientesController(Database context)
+    public ClientesController(
+        Database context,
+        IClienteService clienteService)
     {
         _context = context;
+        _clienteService = clienteService;
     }
 
 
@@ -44,18 +49,9 @@ public class ClientesController : Controller
     /// </returns>
     public IActionResult BuscarClientes(string? busqueda, string controllerName = "Clientes")
     {
-        var clientes = from c in _context.Cliente select c;
-        if (!string.IsNullOrEmpty(busqueda))
-        {
-            ViewBag.controllerName = "Clientes";
-            clientes = clientes.Where(c =>
-                EF.Functions.ILike(c.Id.ToString(), $"%{busqueda}%") ||
-                EF.Functions.ILike(c.Nombres, $"%{busqueda}%") ||
-                EF.Functions.ILike(c.Apellidos, $"%{busqueda}%") ||
-                EF.Functions.ILike(c.RazonSocial, $"%{busqueda}%")
-            );
-        }
-        return PartialView("Clientes/_ListaClientes", clientes.ToList());
+        var clientes = _clienteService.BuscarClientes(busqueda);
+        ViewBag.controllerName = controllerName;
+        return PartialView("Clientes/_ListaClientes", clientes);
     }
 
 

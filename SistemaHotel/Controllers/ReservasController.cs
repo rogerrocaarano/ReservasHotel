@@ -15,7 +15,7 @@ public class ReservasController : Controller
     // GET
     public IActionResult Index()
     {
-        ViewBag.controller = "Reservas";
+        ViewBag.controllerName = "Reservas";
         var clientes = new List<Cliente>();
         return View(clientes);
     }

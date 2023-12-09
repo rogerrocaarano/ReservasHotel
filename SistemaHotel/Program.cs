@@ -73,6 +73,8 @@ var emailSender = new EmailSender(
 
 services.AddTransient<IEmailSender>(sp => emailSender);
 
+services.AddScoped<IClienteService, ClienteService>();
+
 var app = builder.Build();
 
 // Crear roles de usuario si no existen
