@@ -42,7 +42,7 @@ public class ClientesController : Controller
     /// <returns>
     /// Vista parcial con la lista de clientes
     /// </returns>
-    public IActionResult BuscarClientes(string? busqueda)
+    public IActionResult BuscarClientes(string? busqueda, string controllerName = "Clientes")
     {
         var clientes = from c in _context.Cliente select c;
         if (!string.IsNullOrEmpty(busqueda))

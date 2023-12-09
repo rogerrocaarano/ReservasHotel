@@ -16,7 +16,7 @@
 <script>
     async function actualizarListaClientes() {
         let busqueda = document.querySelector('input[name="busqueda"]').value;
-        let response = await fetch('/@controllerName/BuscarClientes?busqueda=' + busqueda);
+        let response = await fetch('/@controllerName/BuscarClientes?busqueda=' + busqueda + '&controllerName=@controllerName');
         let content = await response.text();
         document.getElementById('listaClientesContainer').innerHTML = content;
     }
