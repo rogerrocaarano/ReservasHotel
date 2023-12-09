@@ -42,24 +42,7 @@ public class ClientesController : Controller
     /// <returns>
     /// Vista parcial con la lista de clientes
     /// </returns>
-    public async Task<IActionResult> BuscarClientes(string? busqueda)
-    {
-        ViewBag.controllerName = "Clientes";
-        return PartialView("Clientes/_ListaClientes", await FiltrarClientes(busqueda));
-    }
-
-
-
-    /// <summary>
-    /// Filtra los clientes segun el texto de busqueda
-    /// </summary>
-    /// <param name="busqueda">
-    /// Texto a buscar en los clientes
-    /// </param>
-    /// <returns>
-    /// Lista de clientes filtrados
-    /// </returns>
-    private async Task<List<Cliente>> FiltrarClientes(string? busqueda)
+    public IActionResult BuscarClientes(string? busqueda)
     {
         var clientes = from c in _context.Cliente select c;
         if (!string.IsNullOrEmpty(busqueda))
@@ -71,7 +54,7 @@ public class ClientesController : Controller
                 EF.Functions.ILike(c.RazonSocial, $"%{busqueda}%")
             );
         }
-        return await clientes.ToListAsync();
+        return PartialView("Clientes/_ListaClientes", clientes.ToList());
     }
 
 
