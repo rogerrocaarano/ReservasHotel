@@ -9,13 +9,16 @@ public class ReservasController : Controller
 {
     private readonly Database _context;
     private readonly IClienteService _clienteService;
+    private readonly IHabitationFinder _habitationFinder;
 
     public ReservasController(
         Database context,
-        IClienteService clienteService)
+        IClienteService clienteService,
+        IHabitationFinder habitationFinder)
     {
         _context = context;
         _clienteService = clienteService;
+        _habitationFinder = habitationFinder;
     }
     // GET
     public IActionResult Index()
@@ -40,6 +43,15 @@ public class ReservasController : Controller
         // return NotFound();
 
         return View();
+    }
+
+    public async Task<IActionResult> Create(
+        [Bind("Id," +
+              "IdCliente," +
+              "FechaReserva," +
+              "Estado")] Reserva reserva)
+    {
+        return NotFound();
     }
 
     public void AdicionarHabitacion(

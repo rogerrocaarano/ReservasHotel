@@ -38,7 +38,7 @@
                 }
                 @if (controllerName == "Reservas")
                 {
-                    <a class="btn btn-primary btn-sm">Seleccionar</a>
+                    <a asp-controller="Reservas" asp-action="Create" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Seleccionar</a>
                 }
 
             </td>
