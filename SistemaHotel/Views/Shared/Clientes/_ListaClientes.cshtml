@@ -38,7 +38,11 @@
                 }
                 @if (controllerName == "Reservas")
                 {
-                    <a asp-controller="Reservas" asp-action="Habitaciones" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Seleccionar</a>
+                    <form asp-controller="Reservas" asp-action="Reservar" method="post">
+                        <input type="hidden" name="idCliente" value="@item.Id"/>
+                        <button type="submit" class="btn btn-primary btn-sm">Reservar...</button>
+                    </form>
+                    @* <a asp-controller="Reservas" asp-action="Reservar" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Seleccionar</a> *@
                 }
 
             </td>

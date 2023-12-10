@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SistemaHotel.Data;
 using SistemaHotel.Models;
 using SistemaHotel.Services;
@@ -54,12 +55,40 @@ public class ReservasController : Controller
 
 
 
-    public IActionResult Cliente()
+    public IActionResult Reservar()
     {
         var clientes = new List<Cliente>();
 
         ViewBag.controllerName = ControllerName;
+        var cliente = new Cliente();
+        ViewBag.cliente = cliente;
         return View(clientes);
+    }
+
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Reservar([Bind("IdCliente")] Reserva reserva)
+    {
+        reserva.Estado = "iniciada";
+        _context.Reserva.Add(reserva);
+        await _context.SaveChangesAsync();
+        var reservaActualizada = await _context.Reserva.FindAsync(reserva.Id);
+        int reservaId = reservaActualizada.Id;
+        return RedirectToAction("ReservarHabitacion", new { id=reservaId });
+
+    }
+
+
+
+    public async Task<IActionResult> ReservarHabitacion(int id)
+
+    {
+        var reserva = await _context.Reserva.FindAsync(id);
+        ViewBag.idReserva = reserva.Id;
+        ViewBag.idCliente = reserva.IdCliente;
+        return View();
     }
 
 
