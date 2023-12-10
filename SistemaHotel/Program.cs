@@ -74,7 +74,7 @@ var emailSender = new EmailSender(
 services.AddTransient<IEmailSender>(sp => emailSender);
 
 services.AddScoped<IClienteService, ClienteService>();
-services.AddScoped<IHabitationFinder, HabitationFinder>();
+services.AddScoped<IBuscadorHabitaciones, BuscadorHabitaciones>();
 
 var app = builder.Build();
 

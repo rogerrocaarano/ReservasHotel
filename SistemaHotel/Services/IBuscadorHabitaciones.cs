@@ -2,7 +2,7 @@
 
 namespace SistemaHotel.Services;
 
-public interface IHabitationFinder
+public interface IBuscadorHabitaciones
 {
     IEnumerable<Habitacion> HabitacionesPorTipo(int idTipoHabitacion);
     IEnumerable<Habitacion> HabitacionesPorTipo(TipoHabitacion tipoHabitacion);

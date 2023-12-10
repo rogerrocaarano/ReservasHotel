@@ -3,11 +3,11 @@ using SistemaHotel.Models;
 
 namespace SistemaHotel.Services;
 
-public class HabitationFinder : IHabitationFinder
+public class BuscadorHabitaciones : IBuscadorHabitaciones
 {
     private readonly Database _context;
 
-    public HabitationFinder(Database context)
+    public BuscadorHabitaciones(Database context)
     {
         _context = context;
     }
