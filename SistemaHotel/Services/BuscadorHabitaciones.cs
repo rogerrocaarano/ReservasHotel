@@ -22,10 +22,10 @@ public class BuscadorHabitaciones : IBuscadorHabitaciones
         return _context.Habitacion.Where(h => h.IdTipoHabitacion == tipoHabitacion.Id);
     }
 
-    public IEnumerable<Habitacion> HabitacionesDisponibles(DateTime fechaInicio, DateTime fechaFin)
-    {
-
-    }
+    // public IEnumerable<Habitacion> HabitacionesDisponibles(DateTime fechaInicio, DateTime fechaFin)
+    // {
+    //
+    // }
 
     public IEnumerable<Habitacion> HabitacionesReservadasEnRangoFechas(DateTime fechaInicio, DateTime fechaFin)
     {

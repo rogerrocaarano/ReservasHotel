@@ -1,7 +1,9 @@
+using System.Text;
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using SistemaHotel.Data;
 using SistemaHotel.Models;
 using SistemaHotel.Services;
@@ -15,9 +17,29 @@ var builder = WebApplication.CreateBuilder(args);
  * - ReservasHotelEmailAccount: Cuenta de correo electrónico para el envío de mensajes
  * - ReservasHotelAdminEmail: Cuenta de correo del usuario ADministrador
  */
-var connectionDb = Environment.GetEnvironmentVariable("ReservasHotelDb");
-var systemEmailAccount = Environment.GetEnvironmentVariable("ReservasHotelEmailAccount");
-var adminEmail = Environment.GetEnvironmentVariable("ReservasHotelAdminEmail");
+var sbAppDb = new StringBuilder();
+sbAppDb.Append("Host=");
+sbAppDb.Append(Environment.GetEnvironmentVariable("AppDbHost"));
+sbAppDb.Append(";Database=");
+sbAppDb.Append(Environment.GetEnvironmentVariable("AppDb"));
+sbAppDb.Append(";Username=");
+sbAppDb.Append(Environment.GetEnvironmentVariable("AppDbUser"));
+sbAppDb.Append(";Password=");
+sbAppDb.Append(Environment.GetEnvironmentVariable("AppDbPass"));
+var connAppDb = sbAppDb.ToString();
+
+var sbAuthDb = new StringBuilder();
+sbAuthDb.Append("Host=");
+sbAuthDb.Append(Environment.GetEnvironmentVariable("AuthDbHost"));
+sbAuthDb.Append(";Database=");
+sbAuthDb.Append(Environment.GetEnvironmentVariable("AuthDb"));
+sbAuthDb.Append(";Username=");
+sbAuthDb.Append(Environment.GetEnvironmentVariable("AuthDbUser"));
+sbAuthDb.Append(";Password=");
+sbAuthDb.Append(Environment.GetEnvironmentVariable("AuthDbPass"));
+var connAuthDb = sbAuthDb.ToString();
+
+var adminEmail = Environment.GetEnvironmentVariable("AdminEmail");
 
 //Servicios de la aplicación
 var services = builder.Services;
@@ -30,8 +52,9 @@ var services = builder.Services;
  * - EmailSender: Servicio de envío de correos electrónicos
  */
 
-services.AddDbContext<Database>(options => options.UseNpgsql(connectionDb));
-services.AddDbContext<IdentityDatabase>(options => options.UseNpgsql(connectionDb));
+services.AddDbContext<Database>(options => options.UseNpgsql(connAppDb));
+services.AddDbContext<IdentityDatabase>(options => options.UseNpgsql(connAuthDb));
+
 
 services.AddIdentity<Usuario, Rol>(options =>
     {
@@ -60,15 +83,12 @@ services.AddRazorPages(options =>
     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
 });
 
-
-var emailConfig = JsonNode.Parse(systemEmailAccount);
-
 var emailSender = new EmailSender(
-    host: emailConfig["host"].ToString(),
-    port: int.Parse(emailConfig["port"].ToString()),
-    useSsl: bool.Parse(emailConfig["useSsl"].ToString()),
-    username: emailConfig["username"].ToString(),
-    password: emailConfig["password"].ToString()
+    host: Environment.GetEnvironmentVariable("EmailHost"),
+    port: int.Parse(Environment.GetEnvironmentVariable("EmailPort")),
+    useSsl: bool.Parse(Environment.GetEnvironmentVariable("EmailSsl")),
+    username: Environment.GetEnvironmentVariable("EmailUser"),
+    password: Environment.GetEnvironmentVariable("EmailPass")
 );
 
 services.AddTransient<IEmailSender>(sp => emailSender);
@@ -76,11 +96,16 @@ services.AddTransient<IEmailSender>(sp => emailSender);
 services.AddScoped<IClienteService, ClienteService>();
 services.AddScoped<IBuscadorHabitaciones, BuscadorHabitaciones>();
 
+
 var app = builder.Build();
 
 // Crear roles de usuario si no existen
 var scope = app.Services.CreateScope();
 var serviceProvider = scope.ServiceProvider;
+
+var identityDbContext = serviceProvider.GetRequiredService<IdentityDatabase>();
+identityDbContext.Database.Migrate();
+
 var roleManager = serviceProvider.GetRequiredService<RoleManager<Rol>>();
 string[] roleNames = { "ADMINISTRADOR", "EMPLEADO", "CLIENTE", "CAJA", "RESERVA", "INVENTARIO" };
 foreach (var roleName in roleNames)
@@ -90,6 +115,8 @@ foreach (var roleName in roleNames)
         await roleManager.CreateAsync(new Rol { Name = roleName });
     }
 }
+
+
 
 // Asignar roles al usuario administrador
 var userManager = serviceProvider.GetRequiredService<UserManager<Usuario>>();
