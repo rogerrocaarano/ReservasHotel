@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Habitacion>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Id Cliente seleccionado: @ViewBag.idCliente</h2>
+@await Html.PartialAsync("Buscadores/_BuscadorSelect")
+<div id="resultadosBuscador">
+    @await Html.PartialAsync("Habitaciones/_ResultadosBuscador")
+</div>

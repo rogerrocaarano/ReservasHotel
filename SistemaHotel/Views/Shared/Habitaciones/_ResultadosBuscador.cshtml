@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Habitacion>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Nro.</th>
+        <th>Piso</th>
+        <th>Ubicación</th>
+        <th>Tipo</th>
+        @if (ViewBag.controllerName == "Reservas")
+        {
+            <th></th>
+        }
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var habitacion in Model)
+    {
+        <tr>
+            <td>@habitacion.Id</td>
+            <td>@habitacion.Piso</td>
+            <td>@habitacion.Ubicacion</td>
+            <td>@habitacion.IdTipoHabitacion</td>
+            @if (ViewBag.controllerName == "Reservas")
+            {
+                <td>
+                    <a class="btn btn-sm btn-primary">Reservar</a>
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>

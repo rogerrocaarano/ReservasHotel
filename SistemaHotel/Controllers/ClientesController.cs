@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaHotel.Data;
 using SistemaHotel.Models;
+using SistemaHotel.Services;
 
 namespace SistemaHotel.Controllers;
 
@@ -10,10 +11,14 @@ namespace SistemaHotel.Controllers;
 public class ClientesController : Controller
 {
     private readonly Database _context;
+    private readonly IClienteService _clienteService;
 
-    public ClientesController(Database context)
+    public ClientesController(
+        Database context,
+        IClienteService clienteService)
     {
         _context = context;
+        _clienteService = clienteService;
     }
 
 
@@ -26,7 +31,7 @@ public class ClientesController : Controller
     /// </returns>
     public async Task<IActionResult> Index()
     {
-        ViewBag.controller = "CLiente";
+        ViewBag.controllerName = "Clientes";
         var clientes = new List<Cliente>();
         return View(clientes);
     }
@@ -42,36 +47,11 @@ public class ClientesController : Controller
     /// <returns>
     /// Vista parcial con la lista de clientes
     /// </returns>
-    public async Task<IActionResult> BuscarClientes(string? busqueda)
+    public IActionResult BuscarClientes(string? busqueda)
     {
+        var clientes = _clienteService.BuscarClientes(busqueda);
         ViewBag.controllerName = "Clientes";
-        return PartialView("Clientes/_ListaClientes", await FiltrarClientes(busqueda));
-    }
-
-
-
-    /// <summary>
-    /// Filtra los clientes segun el texto de busqueda
-    /// </summary>
-    /// <param name="busqueda">
-    /// Texto a buscar en los clientes
-    /// </param>
-    /// <returns>
-    /// Lista de clientes filtrados
-    /// </returns>
-    private async Task<List<Cliente>> FiltrarClientes(string? busqueda)
-    {
-        var clientes = from c in _context.Cliente select c;
-        if (!string.IsNullOrEmpty(busqueda))
-        {
-            clientes = clientes.Where(c =>
-                EF.Functions.ILike(c.Id.ToString(), $"%{busqueda}%") ||
-                EF.Functions.ILike(c.Nombres, $"%{busqueda}%") ||
-                EF.Functions.ILike(c.Apellidos, $"%{busqueda}%") ||
-                EF.Functions.ILike(c.RazonSocial, $"%{busqueda}%")
-            );
-        }
-        return await clientes.ToListAsync();
+        return PartialView("Clientes/_ListaClientes", clientes);
     }
 
 

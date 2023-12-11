@@ -1,0 +1,24 @@
+﻿@{
+    Dictionary<string, string> selectOptions = ViewBag.selectOptions;
+}
+<div class="input-group">
+    <select name="busqueda">
+        @foreach (var option in selectOptions)
+        {
+            <option value="@option.Key">@option.Value</option>
+        }
+    </select>
+    <button onclick="actualizarLista()" class="btn btn-secondary">
+        <i class="bi bi-search"></i>
+        Buscar
+    </button>
+</div>
+
+<script>
+    async function actualizarLista() {
+        let busqueda = document.querySelector('select[name="busqueda"]').value;
+        let response = await fetch('/@ViewBag.rutaBuscador?busqueda=' + busqueda);
+        let content = await response.text();
+        document.getElementById('resultadosBuscador').innerHTML = content;
+    }
+</script>

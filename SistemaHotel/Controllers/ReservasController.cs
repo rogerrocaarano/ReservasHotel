@@ -1,95 +1,107 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SistemaHotel.Data;
 using SistemaHotel.Models;
+using SistemaHotel.Services;
 
 namespace SistemaHotel.Controllers;
 
 public class ReservasController : Controller
 {
     private readonly Database _context;
+    private readonly IClienteService _clienteService;
+    private readonly IBuscadorHabitaciones _buscadorHabitaciones;
+    private readonly string _controllerName;
+    public string ControllerName => ControllerContext.ActionDescriptor.ControllerName;
 
-    public ReservasController(Database context)
+    public ReservasController(
+        Database context,
+        IClienteService clienteService,
+        IBuscadorHabitaciones buscadorHabitaciones)
     {
         _context = context;
+        _clienteService = clienteService;
+        _buscadorHabitaciones = buscadorHabitaciones;
     }
-    // GET
+
+
+
     public IActionResult Index()
     {
-        ViewBag.controller = "Reservas";
-        var clientes = new List<Cliente>();
-        return View(clientes);
-    }
-
-    public async Task<IActionResult> Create(int? idCliente)
-    {
-        if (idCliente == null) return NotFound();
-        var cliente = await _context.Cliente.FindAsync(idCliente);
-        if (cliente == null) return NotFound();
-        // return NotFound();
-
+        ViewBag.controllerName = ControllerName;
         return View();
     }
 
-    public void AdicionarHabitacion(
-        int idReserva,
-        int idHabitacion,
-        DateTime fechaInicio,
-        DateTime fechaFin)
+
+
+    public IActionResult BuscarClientes(string? busqueda)
     {
-        var reserva = _context.Reserva.Find(idReserva);
-        var habitacion = _context.Habitacion.Find(idHabitacion);
-        // if (reserva == null || habitacion == null) return null;
-        //
-        // if (GetReservasHabitacion(idHabitacion, fechaInicio, fechaFin).Count > 0) return null;
-        var reservaHabitacion = new ReservaHabitacion
-        {
-            InicioReserva = fechaInicio,
-            FinReserva = fechaFin,
-            IdHabitacion = idHabitacion,
-            IdReserva = idReserva
-        };
-        _context.ReservaHabitacion.Add(reservaHabitacion);
+        var clientes = _clienteService.BuscarClientes(busqueda);
+
+        ViewBag.controllerName = ControllerName;
+        return PartialView("Clientes/_ListaClientes", clientes);
+    }
+
+
+
+    public IActionResult BuscarHabitaciones(int busqueda)
+    {
+        var habitaciones = _buscadorHabitaciones.HabitacionesPorTipo(busqueda);
+
+        ViewBag.controllerName = ControllerName;
+        ViewBag.rutaBuscador = ControllerName + "/BuscarHabitaciones";
+        return PartialView("Habitaciones/_ResultadosBuscador", habitaciones);
+    }
+
+
+
+    public IActionResult Reservar()
+    {
+        var clientes = new List<Cliente>();
+
+        ViewBag.controllerName = ControllerName;
+        var cliente = new Cliente();
+        ViewBag.cliente = cliente;
+        return View(clientes);
+    }
+
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Reservar([Bind("IdCliente")] Reserva reserva)
+    {
+        reserva.Estado = "iniciada";
+        _context.Reserva.Add(reserva);
+        await _context.SaveChangesAsync();
+        var reservaActualizada = await _context.Reserva.FindAsync(reserva.Id);
+        int reservaId = reservaActualizada.Id;
+        return RedirectToAction("ReservarHabitacion", new { id=reservaId });
 
     }
 
 
 
-    /// <summary>
-    /// Retorna las reservas de una habitacion dentro de un rango de fechas.
-    /// </summary>
-    /// <param name="idHabitacion"></param>
-    /// <param name="fechaInicio"></param>
-    /// <param name="fechaFin"></param>
-    /// <returns></returns>
-    public List<ReservaHabitacion> GetReservasHabitacion(
-        int idHabitacion,
-        DateTime fechaInicio,
-        DateTime fechaFin)
+    public async Task<IActionResult> ReservarHabitacion(int id)
+
     {
-        return _context.ReservaHabitacion
-            .Where(rh =>
-                rh.IdHabitacion == idHabitacion && rh.InicioReserva >= fechaInicio && rh.InicioReserva <= fechaFin)
-            .ToList();
+        var reserva = await _context.Reserva.FindAsync(id);
+        ViewBag.idReserva = reserva.Id;
+        ViewBag.idCliente = reserva.IdCliente;
+        return View();
     }
 
 
 
-    /// <summary>
-    /// Retorna las habitaciones de un tipo determinado que no estan reservadas dentro de un rango de fechas.
-    /// </summary>
-    /// <param name="tipoHabitacion"></param>
-    /// <param name="fechaInicio"></param>
-    /// <param name="fechaFin"></param>
-    /// <returns></returns>
-    public List<Habitacion> GetHabitacionesDisponibles(
-        TipoHabitacion tipoHabitacion,
-        DateTime fechaInicio,
-        DateTime fechaFin)
+    public IActionResult Habitaciones(int id)
     {
-        var habitaciones = _context.Habitacion
-            .Where(h => h.IdTipoHabitacion == tipoHabitacion.Id)
-            .ToList();
-        return habitaciones.Where(habitacion =>
-            GetReservasHabitacion(habitacion.Id, fechaInicio, fechaFin).Count == 0).ToList();
+        var tiposHabitacion = _context.TipoHabitacion.ToDictionary(t => t.Id.ToString(), t => t.Nombre);
+        var habitaciones = _buscadorHabitaciones.HabitacionesPorTipo(1);
+
+        ViewBag.idCliente = id;
+        ViewBag.controllerName = ControllerName;
+        ViewBag.selectOptions = tiposHabitacion;
+        ViewBag.rutaBuscador = ControllerName + "/BuscarHabitaciones";
+        return View(habitaciones);
     }
 }

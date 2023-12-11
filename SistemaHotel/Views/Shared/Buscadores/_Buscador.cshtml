@@ -1,0 +1,16 @@
+﻿<div class="input-group">
+    <input type="text" name="busqueda" class="form-control"/>
+    <button onclick="actualizarLista()" class="btn btn-secondary">
+        <i class="bi bi-search"></i>
+        Buscar
+    </button>
+</div>
+
+<script>
+    async function actualizarLista() {
+        let busqueda = document.querySelector('input[name="busqueda"]').value;
+        let response = await fetch('/@ViewBag.rutaBuscador?busqueda=' + busqueda);
+        let content = await response.text();
+        document.getElementById('resultadosBuscador').innerHTML = content;
+    }
+</script>

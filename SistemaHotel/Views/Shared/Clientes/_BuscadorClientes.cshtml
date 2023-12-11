@@ -1,10 +1,13 @@
-﻿<div class="input-group">
+﻿@{
+    string controllerName = ViewBag.controllerName;
+}
+<div class="input-group">
     <input type="text" name="busqueda" class="form-control"/>
     <button onclick="actualizarListaClientes()" class="btn btn-secondary">
         <i class="bi bi-search"></i>
         Buscar
     </button>
-    <a asp-controller="Clientes" asp-action="Create" class="btn btn-success">
+    <a asp-controller="@controllerName" asp-action="Create" class="btn btn-success">
         <i class="bi bi-person-add"></i>
         Nuevo Cliente
     </a>
@@ -13,7 +16,7 @@
 <script>
     async function actualizarListaClientes() {
         let busqueda = document.querySelector('input[name="busqueda"]').value;
-        let response = await fetch('/Clientes/BuscarClientes?busqueda=' + busqueda);
+        let response = await fetch('/@controllerName/BuscarClientes?busqueda=' + busqueda);
         let content = await response.text();
         document.getElementById('listaClientesContainer').innerHTML = content;
     }
