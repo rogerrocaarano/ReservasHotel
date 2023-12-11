@@ -21,4 +21,18 @@ public class BuscadorHabitaciones : IBuscadorHabitaciones
     {
         return _context.Habitacion.Where(h => h.IdTipoHabitacion == tipoHabitacion.Id);
     }
+
+    public IEnumerable<Habitacion> HabitacionesDisponibles(DateTime fechaInicio, DateTime fechaFin)
+    {
+
+    }
+
+    public IEnumerable<Habitacion> HabitacionesReservadasEnRangoFechas(DateTime fechaInicio, DateTime fechaFin)
+    {
+        var query =
+            from reserva in _context.ReservaHabitacion
+            where reserva.InicioReserva >= fechaInicio && reserva.InicioReserva <= fechaFin
+            select reserva.IdHabitacion;
+        return _context.Habitacion.Where(h => query.Contains(h.Id));
+    }
 }
