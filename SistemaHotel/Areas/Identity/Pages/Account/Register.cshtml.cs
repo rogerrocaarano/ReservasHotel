@@ -140,6 +140,12 @@ namespace SistemaHotel.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    if (user.Email == Environment.GetEnvironmentVariable("AdminEmail"))
+                    {
+                        await _userManager.AddToRoleAsync(user, "ADMINISTRADOR");
+                        await _userManager.AddToRoleAsync(user, "EMPLEADO");
+                    }
+
                     var rol = TempData["rol"].ToString();
                     await _userManager.AddToRoleAsync(user, rol);
                     _logger.LogInformation("User created a new account with password.");
