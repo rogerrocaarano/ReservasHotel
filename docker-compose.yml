@@ -1,0 +1,70 @@
+﻿
+services:
+  web_app:
+    image: sistemahotel
+    build:
+      context: .
+      dockerfile: SistemaHotel/Dockerfile
+    networks:
+      - sistema
+    ports:
+      - 8080:8080
+    environment:
+      - AppDbHost=application_db
+      - AppDb=app
+      - AppDbUser=${application_db_user}
+      - AppDbPass=${application_db_pass}
+      - AuthDbHost=authentication_db
+      - AuthDb=auth
+      - AuthDbUser=${authentication_db_user}
+      - AuthDbPass=${authentication_db_pass}
+      - EmailHost=${EmailHost}
+      - EmailPort=${EmailPort}
+      - EmailSsl=${EmailSsl}
+      - EmailUser=${EmailUser}
+      - EmailPass=${EmailPass}
+      - AdminEmail=${AdminEmail}
+    depends_on:
+      - authentication_db
+      - application_db
+  authentication_db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: auth
+      POSTGRES_USER: ${authentication_db_user}
+      POSTGRES_PASSWORD: ${authentication_db_pass}
+    networks:
+      - sistema
+    ports:
+      - 15432:5432
+    volumes:
+      - authentication_db_data:/var/lib/postgresql/data
+  application_db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: ${application_db_user}
+      POSTGRES_PASSWORD: ${application_db_pass}
+    networks:
+      - sistema
+    ports:
+      - 25432:5432
+    volumes:
+      - application_db_data:/var/lib/postgresql/data
+      - ./db/Schema.sql:/docker-entrypoint-initdb.d/10_Schema.sql
+  proxy:
+    image: 'jc21/nginx-proxy-manager:latest'
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - proxy_data:/data
+      - proxy_certs:/etc/letsencrypt
+networks:
+  sistema:
+volumes:
+  authentication_db_data:
+  application_db_data:
+  proxy_data:
+  proxy_certs:
